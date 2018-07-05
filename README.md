@@ -16,7 +16,7 @@ In order to run this project, you need to get your own **token** from [Shutterst
 
 Then set your token in the `gradle.properties` file as follows:
 
-    BEARER_TOKEN = "your bearer token"
+    BEARER_TOKEN = "your-bearer-token"
 
 You also need create a Firebase Project and download **google-services.json** in order to use Firebase Admob. Please refer to the [Firebase Console](https://console.firebase.google.com/u/0/) and [Google Admob](https://apps.admob.com/v2/home).
 
@@ -53,8 +53,8 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
 ### Reasoning technical choices
 
-1. **PagingLibrary** is used to have smoother scrolling and to avoid boilerplate.
-2. **Room Persistence Library** is used to keep favorite items. It is selected since it is a part of Architecture Components.
+1. **PagingLibrary** is used to have smoother scrolling and to avoid boilerplates such as using a CustomEndlessScroll class.
+2. **Room Persistence Library** is used to keep favorite items. It is a prominent component since it has been an important part of the Architecture Components.
 3. **MVVM Pattern** is implemented as the parent pattern of the application. MVVM provides;
 * ViewModels are simple classes that interacts with the logic/model layer and just exposes states/data and actually has no idea by whom or how that data will be consumed. Only View(Activity) holds the reference to ViewModel and not vice versa, this solves our tight coupling issue. A single view can hold reference to multiple ViewModels.
 * ViewModels are even more Unit Test friendly as they just expose the state and hence can be independently tested without requiring the need for testing how data will be consumed, In short there is no dependency of the View.
