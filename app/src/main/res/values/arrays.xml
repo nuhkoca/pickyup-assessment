@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="lang_labels">
+        <item>@string/cs_lang_label</item>
+        <item>@string/da_lang_label</item>
+        <item>@string/de_lang_label</item>
+        <item>@string/en_lang_label</item>
+        <item>@string/es_lang_label</item>
+        <item>@string/fi_lang_label</item>
+        <item>@string/fr_lang_label</item>
+        <item>@string/hu_lang_label</item>
+        <item>@string/it_lang_label</item>
+        <item>@string/ja_lang_label</item>
+        <item>@string/ko_lang_label</item>
+        <item>@string/nb_lang_label</item>
+        <item>@string/nl_lang_label</item>
+        <item>@string/pl_lang_label</item>
+        <item>@string/pt_lang_label</item>
+        <item>@string/ru_lang_label</item>
+        <item>@string/sv_lang_label</item>
+        <item>@string/th_lang_label</item>
+        <item>@string/tr_lang_label</item>
+        <item>@string/zh_lang_label</item>
+    </string-array>
+
+    <string-array name="lang_values">
+        <item>@string/cs_lang_value</item>
+        <item>@string/da_lang_value</item>
+        <item>@string/de_lang_value</item>
+        <item>@string/en_lang_value</item>
+        <item>@string/es_lang_value</item>
+        <item>@string/fi_lang_value</item>
+        <item>@string/fr_lang_value</item>
+        <item>@string/hu_lang_value</item>
+        <item>@string/it_lang_value</item>
+        <item>@string/ja_lang_value</item>
+        <item>@string/ko_lang_value</item>
+        <item>@string/nb_lang_value</item>
+        <item>@string/nl_lang_value</item>
+        <item>@string/pl_lang_value</item>
+        <item>@string/pt_lang_value</item>
+        <item>@string/ru_lang_value</item>
+        <item>@string/sv_lang_value</item>
+        <item>@string/th_lang_value</item>
+        <item>@string/tr_lang_value</item>
+        <item>@string/zh_lang_value</item>
+    </string-array>
+
+
+    <string-array name="sort_labels">
+        <item>@string/newest_label</item>
+        <item>@string/popular_label</item>
+        <item>@string/relevance_label</item>
+        <item>@string/random_label</item>
+    </string-array>
+
+    <string-array name="sort_values">
+        <item>@string/newest_value</item>
+        <item>@string/popular_value</item>
+        <item>@string/relevance_value</item>
+        <item>@string/random_value</item>
+    </string-array>
+
+</resources>

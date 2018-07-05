@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/images_pref_header">
+
+        <ListPreference android:title="@string/image_language_pref_title"
+            android:summary="@string/image_language_pref_summary"
+            android:entries="@array/lang_labels"
+            android:entryValues="@array/lang_values"
+            android:defaultValue="@string/en_lang_value"
+            android:key="@string/image_language_pref_key"/>
+
+        <ListPreference android:title="@string/image_sorting_pref_title"
+            android:summary="@string/image_sorting_pref_summary"
+            android:entries="@array/sort_labels"
+            android:entryValues="@array/sort_values"
+            android:defaultValue="@string/popular_value"
+            android:key="@string/image_sorting_pref_key"/>
+
+        <SwitchPreference
+            android:title="@string/image_safe_search_pref_title"
+            android:summary="@string/safe_search_enabled_text"
+            android:key="@string/image_safe_search_pref_key"
+            android:defaultValue="1"
+            android:checked="true"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/about_menu_text">
+
+        <Preference android:title="@string/third_party_header"
+            android:summary="@string/third_party_subtext"
+            android:key="@string/third_party_key" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/bottom_nav_images"
+        app:showAsAction="ifRoom"
+        android:title="@string/bottom_nav_images_header"
+        android:icon="@drawable/ic_images_white_24dp"/>
+
+    <item
+        android:id="@+id/bottom_nav_fav"
+        app:showAsAction="ifRoom"
+        android:title="@string/bottom_nav_favorites_header"
+        android:icon="@drawable/ic_favorites_white_24dp"/>
+
+    <item
+        android:id="@+id/bottom_nav_settings"
+        app:showAsAction="ifRoom"
+        android:title="@string/bottom_nav_settings_header"
+        android:icon="@drawable/ic_settings_white_24dp"/>
+</menu>

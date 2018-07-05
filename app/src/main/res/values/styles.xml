@@ -1,0 +1,113 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
+    </style>
+
+    <!-- BottomNavigation Theme -->
+    <style name="BottomNavMenuTheme">
+        <item name="android:background">@android:color/white</item>
+        <item name="android:elevation">@dimen/bottom_navigation_view_elevation</item>
+        <item name="itemIconTint">@drawable/bottom_navigation_view_state</item>
+        <item name="itemTextColor">@drawable/bottom_navigation_view_state</item>
+        <item name="menu">@menu/bottom_menu</item>
+    </style>
+
+    <!-- RecyclerView Theme -->
+    <style name="RecyclerViewTheme">
+        <item name="android:visibility">visible</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarSize">@dimen/scrollbar_size</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
+    <!-- ProgressBar Theme -->
+    <style name="ProgressBarTheme">
+        <item name="android:visibility">visible</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:indeterminateTint">@color/secondaryText</item>
+    </style>
+
+    <!-- Error Text Theme -->
+    <style name="ErrorTextTheme">
+        <item name="android:drawablePadding">8dp</item>
+        <item name="android:drawableTop">@drawable/ic_no_connection</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:text">@string/response_error_text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+    <!-- Error Button Theme-->
+    <style name="ErrorButtonTheme">
+        <item name="android:padding">8dp</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:text">@string/retry_text</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">?attr/selectableItemBackground</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <!-- Image CardView Theme -->
+    <style name="ImageCardViewTheme">
+        <item name="cardBackgroundColor">@android:color/white</item>
+        <item name="android:layout_margin">4dp</item>
+        <item name="cardCornerRadius">4dp</item>
+        <item name="cardElevation">4dp</item>
+    </style>
+
+    <!-- Image Desc Theme-->
+    <style name="ImageDescTheme">
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:paddingStart">8dp</item>
+        <item name="android:paddingEnd">8dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <!-- Image Overflow Menu Theme-->
+    <style name="ImageOverflowMenuTheme">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:paddingEnd">8sp</item>
+        <item name="android:paddingBottom">8sp</item>
+        <item name="android:layout_marginTop">8sp</item>
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+        <item name="android:src">@drawable/ic_action_more</item>
+        <item name="android:layout_gravity">bottom|end</item>
+    </style>
+
+    <!-- Network State Error Text Theme -->
+    <style name="NetworkStateErrorTextTheme">
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:text">@string/response_list_error_text</item>
+        <item name="android:gravity">center</item>
+        <item name="android:fontFamily">sans-serif</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textColor">@color/primaryText</item>
+    </style>
+
+</resources>

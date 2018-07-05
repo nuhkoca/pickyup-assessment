@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="images"
+            type="com.upday.shutterdemo.pickyup.model.remote.Images" />
+
+        <variable
+            name="image"
+            type="com.upday.shutterdemo.pickyup.model.remote.HugeThumb" />
+
+        <variable
+            name="popupItemClickListener"
+            type="com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener" />
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/ImageCardViewTheme">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
+            android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:src="@{image.url}"
+                    android:contentDescription="@string/image_content_description" />
+
+            <TextView
+                android:id="@+id/tvImageDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{images.description}"
+                style="@style/ImageDescTheme"/>
+
+                <ImageView
+                    android:id="@+id/ivMore"
+                    android:layout_width="20dp"
+                    android:layout_height="30dp"
+                    android:onClick="@{()-> popupItemClickListener.onPopupMenuItemClick(images, ivMore)}"
+                    android:contentDescription="@string/overflow_content_description"
+                    style="@style/ImageOverflowMenuTheme"/>
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</layout>

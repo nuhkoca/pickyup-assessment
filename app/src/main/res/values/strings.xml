@@ -1,0 +1,145 @@
+<resources>
+    <string name="app_name">PickyUp</string>
+
+    <!-- Menu Strings -->
+    <string name="bottom_nav_images_header">Images</string>
+    <string name="bottom_nav_favorites_header">Favorites</string>
+    <string name="bottom_nav_settings_header">Settings</string>
+    <string name="overflow_add_to_fav">Add to favorites</string>
+    <string name="overflow_open_in_browser">Open in browser</string>
+    <string name="overflow_remove_from_fav">Remove from favorites</string>
+    <string name="search_title">Search PickyUp</string>
+    <string name="delete_all_title">Delete All</string>
+    <string name="report_title">Report</string>
+    <string name="action_back">Back</string>
+    <string name="action_forward">Forward</string>
+
+    <!-- Toast/Alert/Snackbar Strings -->
+    <string name="twice_press_to_exit">Press back once to exit.</string>
+    <string name="constraint_exception_text">You have already added %s to your favorite list.</string>
+    <string name="database_adding_info_text">You have successfully added %s to your favorite list.</string>
+    <string name="dismiss_action_text">DIsmIss</string>
+    <string name="ok_action_text">OK</string>
+    <string name="cancel_action_text">Cancel</string>
+    <string name="item_removing_warning_title">Are you sure you want to delete %s from your favorite list?</string>
+    <string name="item_removing_warning_text">This process won\'t be recoverable.</string>
+    <string name="item_deleted_info_text">You have successfully removed %s from your favorite list.</string>
+    <string name="all_item_deleted_info_text">You have successfully removed all items from your favorite list.</string>
+    <string name="all_item_removing_warning_title">Are you sure you want to delete all items from your favorite list?</string>
+
+
+    <!-- Intent String -->
+    <string name="mail_address">nuhkocaa@gmail.com</string>
+    <string name="send_with">Send with…</string>
+
+    <!-- Button/TextView Strings -->
+    <string name="response_error_text">An error occurred. Check your internet connection or try again in a few minutes.</string>
+    <string name="retry_text">Retry</string>
+    <string name="response_list_error_text">An error occurred.</string>
+    <string name="no_result_error_text">Opps! As it seems, we didn\'t find anything for your request. Sorry!</string>
+    <string name="no_item_in_db_warning_text">You don\'t have any item in your favorite list. First add some items!</string>
+
+    <!-- Preference Strings -->
+    <string name="images_pref_header">Image Preferences</string>
+
+    <!-- Content Descriptions -->
+    <string name="image_content_description">This ImageView stands for each image of result.</string>
+    <string name="overflow_content_description">This ImageView stands for overflow menu.</string>
+
+    <string name="image_language_pref_title">Language</string>
+    <string name="image_language_pref_summary">Set query and result language.</string>
+    <string name="image_language_pref_key">language</string>
+
+    <string name="cs_lang_label">Czech</string>
+    <string name="cs_lang_value">cs</string>
+
+    <string name="da_lang_label">Danish</string>
+    <string name="da_lang_value">da</string>
+
+    <string name="de_lang_label">Deutsch</string>
+    <string name="de_lang_value">de</string>
+
+    <string name="en_lang_label">English</string>
+    <string name="en_lang_value">en</string>
+
+    <string name="es_lang_label">Spanish</string>
+    <string name="es_lang_value">es</string>
+
+    <string name="fi_lang_label">Finnish</string>
+    <string name="fi_lang_value">fi</string>
+
+    <string name="fr_lang_label">French</string>
+    <string name="fr_lang_value">fr</string>
+
+    <string name="hu_lang_label">Hungarian</string>
+    <string name="hu_lang_value">hu</string>
+
+    <string name="it_lang_label">Italian</string>
+    <string name="it_lang_value">it</string>
+
+    <string name="ja_lang_label">Japanese</string>
+    <string name="ja_lang_value">ja</string>
+
+    <string name="ko_lang_label">Korean</string>
+    <string name="ko_lang_value">ko</string>
+
+    <string name="nb_lang_label">Norwegian</string>
+    <string name="nb_lang_value">nb</string>
+
+    <string name="nl_lang_label">Netherlandish</string>
+    <string name="nl_lang_value">nl</string>
+
+    <string name="pl_lang_label">Polish</string>
+    <string name="pl_lang_value">pl</string>
+
+    <string name="pt_lang_label">Portuguese</string>
+    <string name="pt_lang_value">pt</string>
+
+    <string name="ru_lang_label">Russian</string>
+    <string name="ru_lang_value">ru</string>
+
+    <string name="sv_lang_label">Swedish</string>
+    <string name="sv_lang_value">sv</string>
+
+    <string name="th_lang_label">Thai</string>
+    <string name="th_lang_value">th</string>
+
+    <string name="tr_lang_label">Turkish</string>
+    <string name="tr_lang_value">tr</string>
+
+    <string name="zh_lang_label">Chinese</string>
+    <string name="zh_lang_value">zh</string>
+
+
+    <string name="image_sorting_pref_title">Sorting</string>
+    <string name="image_sorting_pref_summary">Sort order in the selected language.</string>
+    <string name="image_sorting_pref_key">sorting</string>
+
+    <string name="newest_label">Newest</string>
+    <string name="newest_value">newest</string>
+
+    <string name="popular_label">Popular</string>
+    <string name="popular_value">popular</string>
+
+    <string name="relevance_label">Relevance</string>
+    <string name="relevance_value">relevance</string>
+
+    <string name="random_label">Random</string>
+    <string name="random_value">random</string>
+
+    <string name="image_safe_search_pref_title">Safe search</string>
+    <string name="image_safe_search_pref_summary">Enable or disable safe search.</string>
+    <string name="image_safe_search_pref_key">safe-search</string>
+
+
+    <string name="safe_search_enabled_text">Safe search enabled.</string>
+    <string name="safe_search_disabled_text">Safe search disabled.</string>
+
+
+    <string name="about_menu_text">About</string>
+
+    <string name="third_party_header">Third Party Libraries</string>
+    <string name="third_party_subtext">Library that we inspire!</string>
+    <string name="third_party_key">third-party</string>
+
+</resources>
