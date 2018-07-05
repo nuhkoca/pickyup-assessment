@@ -116,11 +116,11 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
 **App icon based on:**
 
-Icons made by Freepik from [Flaticon](www.flaticon.com) is licensed by CC 3.0 BY
+Icons made by Freepik from [Flaticon](https://www.flaticon.com/) is licensed by CC 3.0 BY
 
 **Some icons in the app based on:**
 
-Icons made by Freepik from [Flaticon](www.flaticon.com) is licensed by CC 3.0 BY
+Icons made by Freepik from [Flaticon](https://www.flaticon.com/) is licensed by CC 3.0 BY
 
 ```
 MIT License
