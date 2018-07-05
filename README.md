@@ -1,6 +1,6 @@
 # PickyUp
 
-<p align="center"><img src="https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png" alt="PickyUp" height="200px"></p>
+<p align="center"><img src="https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" alt="PickyUp" height="200px"></p>
 
 :boom: This project is a hiring task by [upday for Samsung](https://www.upday.com/en/).
 
@@ -34,35 +34,40 @@ Images Screen             |  Favorites Screen |  Settings Screen
 :-------------------------:|:-------------------------:|:-------------------------:
 ![](art/1.png)  |  ![](art/2.png) |  ![](art/3.png)
 
+WebView Screen             |
+:-------------------------:|
+![](art/4.png)  |
 
-#### Phone
+
+#### Tablet
 
 _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
 ### Description of the problems and solution s
 
-1. Bottom Navigation View was overlapping RecyclerView's items. That is why **56dp**(Bottom Navigation View height) padding was used for the ViewPager which holds Fragments.
-2. Snackbar was insisting to placed in front of the Bottom Navigation View and it was fixed using **56dp-~180px with drop shadow**(Bottom Navigation View height) margin bottom.
-3. App used to close when back pressed even if search bar is not empty. This is because **Custom SearchView** was created and query checking mechanism was implemented when back pressed. If search bar is not empty, in first backpresses, SearchView gets collapsed and cleaned then app is closed.
-4. Query used to not preserve its state in case of screen rotation and users had to re-type their queries. Therefore **saveInstanceState** was implemented.
-5. In very first run, app was crashing due to the fact that onSharedPreferenceChanged method was called even if values have their existing ones. A logic that controls first run was developed and the crash is avoided.
-6. No more issue! :)
+1. Bottom Navigation View was overlapping RecyclerView's items. That is why **56dp**(Bottom Navigation View height) padding was used for the ViewPager which holds Fragments. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/res/layout/activity_main.xml#L17)
+2. Snackbar was insisting to placed in front of the Bottom Navigation View and it was fixed using **56dp-~170px with drop shadow**(Bottom Navigation View height) margin bottom. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/utils/SnackbarUtils.java#L69)
+3. App used to close when back pressed even if search bar is not empty. This is because **Custom SearchView** was created and query checking mechanism was implemented when back pressed. If search bar is not empty, in first backpresses, SearchView gets collapsed and cleaned then app is closed. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/MainActivity.java#L182)
+4. Query used to not preserve its state in case of screen rotation and users had to re-type their queries. Therefore **saveInstanceState** was implemented. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L310)
+5. In very first run, app was crashing due to the fact that onSharedPreferenceChanged method was called even if values have their existing ones. A logic that controls first run was developed and the crash is avoided. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L335)
+6. Images on WebView were too big and it was fixed by a couple of code block. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/WebViewActivity.java#L74)
+7. No more issue! :)
 
 ### Reasoning technical choices
 
-1. PagingLibrary is used to have smoother scrolling and to avoid boilerplate.
-2. Room Persistence Library is used to keep favorite items. It is selected since it is a part of Architecture Components.
-3. MVVM Pattern is implemented as the parent pattern of the application. MVVM provides;
+1. **PagingLibrary** is used to have smoother scrolling and to avoid boilerplate.
+2. **Room Persistence Library** is used to keep favorite items. It is selected since it is a part of Architecture Components.
+3. **MVVM Pattern** is implemented as the parent pattern of the application. MVVM provides;
 * ViewModels are simple classes that interacts with the logic/model layer and just exposes states/data and actually has no idea by whom or how that data will be consumed. Only View(Activity) holds the reference to ViewModel and not vice versa, this solves our tight coupling issue. A single view can hold reference to multiple ViewModels.
 * ViewModels are even more Unit Test friendly as they just expose the state and hence can be independently tested without requiring the need for testing how data will be consumed, In short there is no dependency of the View.
 
-4. Retrofit - RxJava couple is implemented since Retrofit is the best and light-weight HTTP library. It can also work great with RxJava's adapter. 
+4. **Retrofit - RxJava** couple is implemented since Retrofit is the best and light-weight HTTP library. It can also work great with RxJava's adapter.
 
 * **Rx** are a set of interfaces and methods which provide a way to developers to solve problems rapidly, simply to maintain, and easy to understand. RxJava provides just that, a set of tools to help you write clean and simpler code.
 
-5. Stetho is used to track network and database progresses over browser.
-6. Gson is chosen to serialize comfortably web-service outputs as it provides an opportunity to serialize nulls, though.
-7. Bottom Navigation View with ViewPager is implemented since the app has a small set of sreen.
+5. **Stetho** is used to track network and database progresses over browser.
+6. **Gson** is chosen to serialize comfortably web-service outputs as it provides an opportunity to serialize nulls, though.
+7. **Bottom Navigation View with ViewPager** is implemented since the app has a small set of sreen.
 
 ### Trade-offs in case of additional time
 
