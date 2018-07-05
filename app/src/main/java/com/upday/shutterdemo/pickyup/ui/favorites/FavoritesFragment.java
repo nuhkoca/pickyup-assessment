@@ -217,7 +217,7 @@ public class FavoritesFragment extends Fragment implements IPopupMenuItemClickLi
     }
 
     private void deleteAll(final FavoriteImagesRepository favoriteImagesRepository) {
-        if (mFavoriteImages.size() > 0) {
+        if (mFavoriteImages!= null && mFavoriteImages.size() > 0) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                     .setTitle(getString(R.string.all_item_removing_warning_title))

@@ -74,6 +74,7 @@ public class WebViewActivity extends AppCompatActivity implements SwipeRefreshLa
         webSettings.setUseWideViewPort(true);
 
         mActivityWebViewBinding.wvMain.setHorizontalScrollBarEnabled(false);
+        mActivityWebViewBinding.wvMain.setInitialScale(1);
 
         mActivityWebViewBinding.wvMain.setWebChromeClient(new CustomWebChromeClient(this));
         mActivityWebViewBinding.wvMain.setWebViewClient(new WebViewClient() {
@@ -111,14 +112,12 @@ public class WebViewActivity extends AppCompatActivity implements SwipeRefreshLa
             }
         });
 
-
         mActivityWebViewBinding.wvMain.clearCache(true);
         mActivityWebViewBinding.wvMain.clearHistory();
 
         mActivityWebViewBinding.wvMain.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
 
                 if (event.getPointerCount() > 1) {
                     return true;

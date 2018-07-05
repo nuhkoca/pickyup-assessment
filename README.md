@@ -41,7 +41,7 @@ Images Screen             |  Favorites Screen |  Settings Screen | WebView Scree
 
 _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
-### Description of the problems and solution s
+### Description of the problems and solutions
 
 1. Bottom Navigation View was overlapping RecyclerView's items. That is why **56dp**(Bottom Navigation View height) padding was used for the ViewPager which holds Fragments. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/res/layout/activity_main.xml#L17)
 2. Snackbar was insisting to placed in front of the Bottom Navigation View and it was fixed using **56dp-~170px with drop shadow**(Bottom Navigation View height) margin bottom. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/utils/SnackbarUtils.java#L69)
