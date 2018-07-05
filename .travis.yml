@@ -1,0 +1,45 @@
+language: android
+android:
+  components:
+    - tools
+    - platform-tools
+    - tools
+    - build-tools-27.1.1
+    - android-27
+    - extra
+    - addon
+
+    # Specify at least one system image,
+    # if you need to run emulator(s) during your tests
+    - sys-img-armeabi-v7a-android-27
+    - sys-img-armeabi-v7a-android-17
+
+install:
+    - true
+
+sudo: false
+
+branches:
+  only:
+    - master
+
+env:
+  global:
+    - BASE_URL=$BASE_URL
+    - BEARER_TOKEN=$BEARER_TOKEN
+
+before_cache:
+  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
+cache:
+  directories:
+    - $HOME/.gradle/caches/
+    - $HOME/.gradle/wrapper/
+    - $HOME/.android/build-cache
+
+script:
+    - ./gradlew build
+
+before_install:
+    - chmod +x gradlew

@@ -30,13 +30,9 @@ You also need create a Firebase Project and download **google-services.json** in
 
 #### Phone
 
-Images Screen             |  Favorites Screen |  Settings Screen
-:-------------------------:|:-------------------------:|:-------------------------:
-![](art/1.png)  |  ![](art/2.png) |  ![](art/3.png)
-
-WebView Screen             |
-:-------------------------:|
-![](art/4.png)  |
+Images Screen             |  Favorites Screen |  Settings Screen | WebView Screen
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](art/1.png)  |  ![](art/2.png) |  ![](art/3.png) | ![](art/4.png)
 
 
 #### Tablet
@@ -74,6 +70,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 1. I would implement offline data for the Images Screen in case of no internet instead of error.
 2. I would have more options in the Settings Screens instead of a limited one.
 3. I would create another screens for footage and videos, too.
+4. I am very familiar with [Travis CI](https://travis-ci.org/) but I cannot fix an issue if a project has secret keys. It fails constantly and I cannot go further. If I fix that issue I will be able to integrate a CI tool properly. This project is also connected to Travis but it fails :)
 
 ### Link to other codes that I might be proud of
 
