@@ -4,6 +4,8 @@
 
 :boom: This project is a hiring task by [upday for Samsung](https://www.upday.com/en/).
 
+![[Build Status](https://travis-ci.org/nuhkoca/pickyup-assessment.svg?branch=master)](https://travis-ci.org/nuhkoca/pickyup-assessment)
+
 PickyUp is an image search app that uses [Shutterstock API](https://developers.shutterstock.com/getting-started) in the backend. Users can search any image with different type of settings. They can also add images to their favorite lists.
 
 Please visit [Shutterstock Developer Page](https://developers.shutterstock.com/getting-started) to obtain your own Bearer Token.
