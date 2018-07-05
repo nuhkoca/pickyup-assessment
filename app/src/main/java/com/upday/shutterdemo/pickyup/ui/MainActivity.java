@@ -111,13 +111,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.main_menu, menu);
-
+    public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.search).setVisible(false);
         menu.findItem(R.id.delete_all).setVisible(false);
         menu.findItem(R.id.report).setVisible(true);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
 
         mSearchView =
                 (SearchView) menu.findItem(R.id.search).getActionView();

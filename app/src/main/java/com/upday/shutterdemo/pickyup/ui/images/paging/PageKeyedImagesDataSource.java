@@ -133,12 +133,12 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
                         Timber.e(e);
                     }
 
+                    @SuppressWarnings("ConstantConditions")
                     @Override
                     public void onNext(ImagesWrapper imagesWrapper) {
                         if (imagesWrapper.getTotalCount() > 0 && imagesWrapper.getData() != null && imagesWrapper.getData().size() > 0) {
                             imagesList.addAll(imagesWrapper.getData());
 
-                            //noinspection ConstantConditions
                             long nextKey = (params.key == imagesWrapper.getTotalCount()) ? null : params.key + 1;
                             callback.onResult(imagesList, nextKey);
 

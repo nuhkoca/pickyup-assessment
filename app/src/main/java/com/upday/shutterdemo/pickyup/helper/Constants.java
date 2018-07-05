@@ -15,6 +15,7 @@ public class Constants {
     public static final String SEARCH_VIEW_QUERY_STATE = "search-view-query-state";
     public static final String PICKYUP_DATABASE_NAME = "PickyUp.db";
     public static final String WEB_URL_KEY = "web-url-key";
+    public static final String RUN_COUNT_KEY = "run-count-key";
 
     public Constants() {
         throw new AssertionError();

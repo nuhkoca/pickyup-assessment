@@ -67,7 +67,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 6. **Gson** is chosen to serialize comfortably web-service outputs as it provides an opportunity to serialize nulls, though.
 7. **Bottom Navigation View with ViewPager** is implemented since the app has a small set of sreen.
 
-### Trade-offs in case of additional time
+### Trade-offs in case of additional time/My SWOT
 
 1. I would implement offline data for the Images Screen in case of no internet instead of error.
 2. I would have more options in the Settings Screens instead of a limited one.

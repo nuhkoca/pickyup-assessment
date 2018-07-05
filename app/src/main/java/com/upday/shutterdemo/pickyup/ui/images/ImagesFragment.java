@@ -289,7 +289,6 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
                 query = query.toLowerCase();
 
                 SharedPreferencesUtils.getInstance().saveQuery(query);
-
                 query = SharedPreferencesUtils.getInstance().getQuery();
 
                 ImageResultDataSourceFactory.getInstance(query, mLanguage, mSafeSearch, mSorting);

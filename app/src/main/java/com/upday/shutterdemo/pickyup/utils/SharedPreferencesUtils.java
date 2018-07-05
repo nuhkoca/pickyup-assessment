@@ -42,7 +42,7 @@ public class SharedPreferencesUtils {
     }
 
     public synchronized int getRunCount() {
-        return mSharedPref.getInt("run-count", 0);
+        return mSharedPref.getInt(Constants.RUN_COUNT_KEY, 0);
     }
 
     public synchronized void setRunCount() {
@@ -50,7 +50,7 @@ public class SharedPreferencesUtils {
 
         int count = getRunCount() + 1;
 
-        editor.putInt("run-count", count);
+        editor.putInt(Constants.RUN_COUNT_KEY, count);
 
         editor.apply();
     }

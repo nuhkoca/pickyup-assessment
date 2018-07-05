@@ -19,7 +19,6 @@ public class ImagesFragmentViewModel extends ViewModel {
     private LiveData<NetworkState> mNetworkState;
     private LiveData<NetworkState> mInitialLoading;
     private LiveData<PagedList<Images>> mImagesResult;
-    private LiveData<PagedList<Images>> mImagesResult1;
     private ImageResultDataSourceFactory imageResultDataSourceFactory;
 
     ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory) {
@@ -72,11 +71,11 @@ public class ImagesFragmentViewModel extends ViewModel {
                 .setPageSize(Constants.PER_PAGE_SIZE) //page size
                 .build();
 
-        mImagesResult1 = new LivePagedListBuilder<>(this.imageResultDataSourceFactory, config)
+        mImagesResult = new LivePagedListBuilder<>(this.imageResultDataSourceFactory, config)
                 .setFetchExecutor(AppsExecutor.networkIO())
                 .build();
 
-        return mImagesResult1;
+        return mImagesResult;
     }
 
     @Override

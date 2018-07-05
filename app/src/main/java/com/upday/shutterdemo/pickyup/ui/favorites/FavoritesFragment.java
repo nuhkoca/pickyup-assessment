@@ -60,7 +60,8 @@ public class FavoritesFragment extends Fragment implements IPopupMenuItemClickLi
 
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
 
-        mCustomImagesLayoutBinding = DataBindingUtil.inflate(layoutInflater, R.layout.custom_images_layout, container, false);
+        mCustomImagesLayoutBinding =
+                DataBindingUtil.inflate(layoutInflater, R.layout.custom_images_layout, container, false);
 
         return mCustomImagesLayoutBinding.getRoot();
     }
@@ -72,13 +73,18 @@ public class FavoritesFragment extends Fragment implements IPopupMenuItemClickLi
         setHasOptionsMenu(true);
     }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+    private void setupRV() {
         int columnCount = ColumnUtils.getOptimalNumberOfColumn(getContext());
         final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(columnCount, 1);
+
         mCustomImagesLayoutBinding.rvImages.setLayoutManager(staggeredGridLayoutManager);
 
         mFavoritesAdapter = new FavoritesAdapter(this);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        setupRV();
     }
 
     @Override
@@ -248,8 +254,8 @@ public class FavoritesFragment extends Fragment implements IPopupMenuItemClickLi
         mFavoritesFragmentViewModel.retrieveFavoriteImagesList().observe(this, new Observer<PagedList<FavoriteImages>>() {
             @Override
             public void onChanged(@Nullable PagedList<FavoriteImages> favoriteImages) {
+                mFavoritesAdapter.submitList(null);
                 mFavoritesAdapter.submitList(favoriteImages);
-
                 mFavoriteImages = favoriteImages;
             }
         });

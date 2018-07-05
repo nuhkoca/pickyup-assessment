@@ -139,7 +139,7 @@
     <string name="about_menu_text">About</string>
 
     <string name="third_party_header">Third Party Libraries</string>
-    <string name="third_party_subtext">Library that we inspire!</string>
+    <string name="third_party_subtext">Libraries that we inspire!</string>
     <string name="third_party_key">third-party</string>
 
 </resources>

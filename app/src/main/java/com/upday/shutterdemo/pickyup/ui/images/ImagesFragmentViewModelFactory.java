@@ -8,16 +8,16 @@ import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFacto
 
 public class ImagesFragmentViewModelFactory implements ViewModelProvider.Factory {
 
-    private ImageResultDataSourceFactory imageResultDataSourceFactory;
+    private ImageResultDataSourceFactory mImageResultDataSourceFactory;
 
     ImagesFragmentViewModelFactory(ImageResultDataSourceFactory imageResultDataSourceFactory) {
-        this.imageResultDataSourceFactory = imageResultDataSourceFactory;
+        this.mImageResultDataSourceFactory = imageResultDataSourceFactory;
     }
 
     @SuppressWarnings("unchecked")
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new ImagesFragmentViewModel(imageResultDataSourceFactory);
+        return (T) new ImagesFragmentViewModel(mImageResultDataSourceFactory);
     }
 }

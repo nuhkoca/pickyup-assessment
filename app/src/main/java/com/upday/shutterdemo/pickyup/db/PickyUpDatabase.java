@@ -39,7 +39,7 @@ public abstract class PickyUpDatabase extends RoomDatabase {
     private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
-            //Since we didn't alter the table, there's nothing else to do here.
+            //Since we won't alter the table, there's nothing else to do here.
         }
     };
 
