@@ -85,7 +85,10 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
 
                     @Override
                     public void onNext(ImagesWrapper imagesWrapper) {
-                        if (imagesWrapper.getTotalCount() > 0 && imagesWrapper.getData() != null && imagesWrapper.getData().size() > 0) {
+                        if (imagesWrapper.getTotalCount() > 0
+                                && imagesWrapper.getData() != null
+                                && imagesWrapper.getData().size() > 0) {
+
                             imagesList.addAll(imagesWrapper.getData());
                             callback.onResult(imagesList, null, 2L);
 
@@ -136,7 +139,10 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
                     @SuppressWarnings("ConstantConditions")
                     @Override
                     public void onNext(ImagesWrapper imagesWrapper) {
-                        if (imagesWrapper.getTotalCount() > 0 && imagesWrapper.getData() != null && imagesWrapper.getData().size() > 0) {
+                        if (imagesWrapper.getTotalCount() > 0
+                                && imagesWrapper.getData() != null
+                                && imagesWrapper.getData().size() > 0) {
+
                             imagesList.addAll(imagesWrapper.getData());
 
                             long nextKey = (params.key == imagesWrapper.getTotalCount()) ? null : params.key + 1;

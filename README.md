@@ -22,9 +22,9 @@ You also need create a Firebase Project and download **google-services.json** in
 
 ### Features
 
-- [x] Users can search any image with query.
-- [x] Users can add images to their favorite lists.
-- [x] Users can remove any image from their favorite list.
+- [x] Users can search any image with search bar.
+- [x] Users can add images to their favorites list.
+- [x] Users can remove any image from their favorites list.
 - [x] Users can change search criteria by the Settings page.
 - [x] Users can view original size of any image by the WebView page.
 
@@ -54,7 +54,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 ### Reasoning technical choices
 
 1. **PagingLibrary** is used to have smoother scrolling and to avoid boilerplates such as using a CustomEndlessScroll class.
-2. **Room Persistence Library** is used to keep favorite items. It is a prominent component since it has been an important part of the Architecture Components.
+2. **Room Persistence Library** is used to keep favorite items. It is a prominent component to store local data since it has been an important part of the Architecture Components.
 3. **MVVM Pattern** is implemented as the parent pattern of the application. MVVM provides;
 * ViewModels are simple classes that interacts with the logic/model layer and just exposes states/data and actually has no idea by whom or how that data will be consumed. Only View(Activity) holds the reference to ViewModel and not vice versa, this solves our tight coupling issue. A single view can hold reference to multiple ViewModels.
 * ViewModels are even more Unit Test friendly as they just expose the state and hence can be independently tested without requiring the need for testing how data will be consumed, In short there is no dependency of the View.
@@ -67,11 +67,11 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 6. **Gson** is chosen to serialize comfortably web-service outputs as it provides an opportunity to serialize nulls, though.
 7. **Bottom Navigation View with ViewPager** is implemented since the app has a small set of sreen.
 
-### Trade-offs in case of additional time/My SWOT
+### Trade-offs in case of additional time/My SWOT analysis
 
 1. I would implement offline data for the Images Screen in case of no internet instead of error.
 2. I would have more options in the Settings Screens instead of a limited one.
-3. I would create another screens for footage and videos, too.
+3. I would create another screens for musics and videos with the power of YoutubePlayerAPI, too.
 4. I am very familiar with [Travis CI](https://travis-ci.org/) but I cannot fix an issue if a project has secret keys. It fails constantly and I cannot go further. If I fix that issue I will be able to integrate a CI tool properly. This project is also connected to Travis but it fails :)
 
 ### Link to other codes that I might be proud of
@@ -116,11 +116,11 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
 **App icon based on:**
 
-Icons made by Freepik from www.flaticon.com is licensed by CC 3.0 BY
+Icons made by Freepik from [Flaticon](www.flaticon.com) is licensed by CC 3.0 BY
 
 **Some icons in the app based on:**
 
-Icons made by Freepik from www.flaticon.com is licensed by CC 3.0 BY
+Icons made by Freepik from [Flaticon](www.flaticon.com) is licensed by CC 3.0 BY
 
 ```
 MIT License
