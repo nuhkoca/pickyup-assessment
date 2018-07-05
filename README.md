@@ -16,7 +16,7 @@ In order to run this project, you need to get your own **token** from [Shutterst
 
 Then set your token in the `gradle.properties` file as follows:
 
-    BEARER_TOKEN = "your token"
+    BEARER_TOKEN = "your bearer token"
 
 You also need create a Firebase Project and download **google-services.json** in order to use Firebase Admob. Please refer to the [Firebase Console](https://console.firebase.google.com/u/0/) and [Google Admob](https://apps.admob.com/v2/home).
 
