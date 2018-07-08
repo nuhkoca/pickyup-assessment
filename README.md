@@ -49,7 +49,9 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 4. Query used to not preserve its state in case of screen rotation and users had to re-type their queries. Therefore **saveInstanceState** was implemented. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L310)
 5. In very first run, app was crashing due to the fact that **onSharedPreferenceChanged** method was called even if values have their existing ones. A logic that controls first run was developed and the crash is avoided. Please note, this might be a temporary solution. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L335)
 6. Images on WebView were too big and it was fixed by a couple of code block. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/WebViewActivity.java#L74)
-7. No more issue! :)
+7. Sometimes accessing to resources in unit tests is too hard. In this case, Mockito jumps in! I was able to fix resource access by its @Mock annotation which imitates context and so on integrating when and thenReturn methods. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/test/java/com/upday/shutterdemo/pickyup/EmailValidatorTest.java#L35)
+8. Accessing to static or final classes in unit test is kinda torture. Since I need to access to some of static and final classes to test RxJava, Observable and Observers, I had to use the power of PowerMock! [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/test/java/com/upday/shutterdemo/pickyup/ShutterstockAPITest.java#L37)
+9. No more issue! :)
 
 ### Reasoning technical choices
 
@@ -65,7 +67,9 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
 5. **Stetho** is used to track network and database progresses over browser.
 6. **Gson** is chosen to serialize comfortably web-service outputs as it provides an opportunity to serialize nulls, though.
-7. **Bottom Navigation View with ViewPager** is implemented since the app has a small set of sreen.
+7. **Bottom Navigation View with ViewPager** is implemented since the app has a small set of screen.
+8. **Mockito** is chosen for unit tests as it is recommended by the official document and it lets you write beautiful tests with a clean & simple API and allows to mock objects easily.
+9. **PowerMock** is chosen as it enables mocking of static methods, constructors, final classes and methods, private methods, removal of static initializers and more. It is also a good choice to test Observers, Observables and RxJava.
 
 ### Trade-offs in case of additional time/My SWOT analysis
 
@@ -109,6 +113,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 * [Stetho](http://facebook.github.io/stetho/)
 * [Espresso](https://github.com/googlesamples/android-testing)
 * [Mockito](https://github.com/mockito/mockito)
+* [PowerMock](https://github.com/powermock/powermock)
 * [About Libraries](https://github.com/mikepenz/AboutLibraries)
 * [Google Admob](https://www.google.com/admob/)
 

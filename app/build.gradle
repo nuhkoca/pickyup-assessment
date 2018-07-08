@@ -114,7 +114,7 @@ dependencies {
     androidTestImplementation "com.android.support.test.espresso:espresso-intents:$rootProject.ext.espressoVersion"
     testImplementation "junit:junit:$rootProject.ext.JUnitVersion"
 
-    //Mockito and PowerMock
+    //Mockito & PowerMock
     testImplementation "org.mockito:mockito-all:$rootProject.ext.mockitoVersion"
     testImplementation "org.powermock:powermock:$rootProject.ext.powerMockVersion"
     testImplementation "org.powermock:powermock-module-junit4:$rootProject.ext.powerMockitoVersion"

@@ -38,6 +38,13 @@ import static org.powermock.api.mockito.PowerMockito.when;
 @PowerMockIgnore("javax.net.ssl*")
 public class ShutterstockAPITest {
 
+    private static final String QUERY = "berlin";
+    private static final String LANGUAGE = "en";
+    private static final boolean SAFE_SEARCH = true;
+    private static final String SORT = "popular";
+    private static final int PAGE = 1;
+    private static final int PAGE_SIZE = 20;
+
     @Mock
     private
     EndpointRepository endpointRepository;
@@ -50,13 +57,6 @@ public class ShutterstockAPITest {
     @Mock
     private
     Observer<PagedList<Images>> observer;
-
-    private static final String QUERY = "berlin";
-    private static final String LANGUAGE = "en";
-    private static final boolean SAFE_SEARCH = true;
-    private static final String SORT = "popular";
-    private static final int PAGE = 1;
-    private static final int PAGE_SIZE = 20;
 
     @Before
     public void setUp() {
@@ -85,8 +85,8 @@ public class ShutterstockAPITest {
 
         when(endpointRepository.getImages(QUERY, LANGUAGE, SAFE_SEARCH, SORT, PAGE, PAGE_SIZE))
                 .thenReturn(observable);
-        when(observable.subscribeOn(Schedulers.immediate())).thenReturn(observable);
-        when(observable.observeOn(Schedulers.immediate())).thenReturn(observable);
+        when(observable.subscribeOn(Schedulers.io())).thenReturn(observable);
+        when(observable.observeOn(AndroidSchedulers.mainThread())).thenReturn(observable);
 
         imagesFragmentViewModel.getImagesResult().observeForever(observer);
 
