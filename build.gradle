@@ -43,10 +43,14 @@ ext {
     viewPagerTransformerVersion = '1.2.32@aar'
     googleAdsVersion = '15.0.1'
     adsVersion = '15.0.1'
+    coreVersion = '16.0.1'
     aboutLibrariesVersion = '6.0.6'
     espressoVersion = '3.0.2'
     testVersion = '1.0.1'
     JUnitVersion = '4.12'
+    mockitoVersion = '2.0.2-beta'
+    powerMockitoVersion = '1.7.1'
+    powerMockVersion = '1.6.5'
 }
 
 task clean(type: Delete) {

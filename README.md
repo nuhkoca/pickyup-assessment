@@ -108,6 +108,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 * [PreferenceScreen v14](https://developer.android.com/reference/android/preference/Preference)
 * [Stetho](http://facebook.github.io/stetho/)
 * [Espresso](https://github.com/googlesamples/android-testing)
+* [Mockito](https://github.com/mockito/mockito)
 * [About Libraries](https://github.com/mikepenz/AboutLibraries)
 * [Google Admob](https://www.google.com/admob/)
 

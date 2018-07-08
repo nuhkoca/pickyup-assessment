@@ -14,6 +14,7 @@ import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.databinding.FavoriteImagesItemLayoutBinding;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
+import com.upday.shutterdemo.pickyup.utils.AspectUtils;
 
 public class FavoritesAdapter extends PagedListAdapter<FavoriteImages, RecyclerView.ViewHolder> {
 
@@ -67,6 +68,13 @@ public class FavoritesAdapter extends PagedListAdapter<FavoriteImages, RecyclerV
             favoriteImagesItemLayoutBinding.setVariable(BR.popupItemClickListener, mIPopupMenuItemClickListener);
 
             favoriteImagesItemLayoutBinding.executePendingBindings();
+
+            AspectUtils.equalizeAndApplyTo(
+                    favoriteImages.getWidth(),
+                    favoriteImages.getHeight(),
+                    favoriteImagesItemLayoutBinding.clFavoriteImageHolder,
+                    favoriteImagesItemLayoutBinding.ivFavoritePoster.getId()
+            );
         }
     }
 }

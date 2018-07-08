@@ -17,6 +17,7 @@ import com.upday.shutterdemo.pickyup.callback.IRetryListener;
 import com.upday.shutterdemo.pickyup.databinding.ImagesItemLayoutBinding;
 import com.upday.shutterdemo.pickyup.databinding.NetworkStateItemBinding;
 import com.upday.shutterdemo.pickyup.model.remote.Images;
+import com.upday.shutterdemo.pickyup.utils.AspectUtils;
 
 public class ImagesAdapter extends PagedListAdapter<Images, RecyclerView.ViewHolder> {
 
@@ -119,6 +120,13 @@ public class ImagesAdapter extends PagedListAdapter<Images, RecyclerView.ViewHol
             imagesItemLayoutBinding.setVariable(BR.popupItemClickListener, mIPopupMenuItemClickListener);
 
             imagesItemLayoutBinding.executePendingBindings();
+
+            AspectUtils.equalizeAndApplyTo(
+                    images.getAssets().getHugeThumb().getWidth(),
+                    images.getAssets().getHugeThumb().getHeight(),
+                    imagesItemLayoutBinding.clImagesHolder,
+                    imagesItemLayoutBinding.ivPoster.getId()
+            );
         }
     }
 

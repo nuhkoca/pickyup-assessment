@@ -29,7 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class MenuItemOpensWebActivityTest {
+public class MenuItemOpensEmailIntentTest {
 
     @Rule
     public IntentsTestRule<MainActivity> intentsTestRule = new IntentsTestRule<>(MainActivity.class);
@@ -38,7 +38,7 @@ public class MenuItemOpensWebActivityTest {
 
     @SuppressWarnings({"unchecked", "ResultOfMethodCallIgnored"})
     @Test
-    public void menuItemOpensAnActivity() {
+    public void menuItem_OpensAnActivity() {
         onView(withId(R.id.vpImages)).perform(swipeLeft());
 
         onView(isRoot()).perform(waitFor(1500));

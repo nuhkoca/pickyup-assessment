@@ -33,6 +33,13 @@ public class ImageResultDataSourceFactory extends DataSource.Factory<Long, Image
         return INSTANCE;
     }
 
+    public ImageResultDataSourceFactory(String query, String language, boolean safeSearch, String sort) {
+        mQuery = query;
+        mLanguage = language;
+        mSafeSearch = safeSearch;
+        mSort = sort;
+    }
+
     @Override
     public DataSource<Long, Images> create() {
         PageKeyedImagesDataSource pageKeyedImagesDataSource = new PageKeyedImagesDataSource(mQuery, mLanguage, mSafeSearch, mSort);

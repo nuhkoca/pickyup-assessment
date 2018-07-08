@@ -30,11 +30,17 @@ public class FavoriteImages {
     private String url;
     @ColumnInfo(name = "description")
     private String description;
+    @ColumnInfo(name = "height")
+    private double height;
+    @ColumnInfo(name = "width")
+    private double width;
 
-    public FavoriteImages(String iid, String url, String description) {
+    public FavoriteImages(String iid, String url, String description, double height, double width) {
         this.iid = iid;
         this.url = url;
         this.description = description;
+        this.height = height;
+        this.width = width;
     }
 
     public int getId() {
@@ -67,6 +73,22 @@ public class FavoriteImages {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public double getHeight() {
+        return height;
+    }
+
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
+    public void setWidth(double width) {
+        this.width = width;
     }
 
     @Override

@@ -21,7 +21,7 @@ public class ImagesFragmentViewModel extends ViewModel {
     private LiveData<PagedList<Images>> mImagesResult;
     private ImageResultDataSourceFactory imageResultDataSourceFactory;
 
-    ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory) {
+    public ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory) {
         this.imageResultDataSourceFactory = imageResultDataSourceFactory;
 
         mNetworkState = Transformations.switchMap(this.imageResultDataSourceFactory.getPageKeyedImagesDataSourceMutableLiveData(), new Function<PageKeyedImagesDataSource, LiveData<NetworkState>>() {

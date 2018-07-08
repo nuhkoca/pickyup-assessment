@@ -44,7 +44,7 @@ public class RecyclerViewItemsClickableTest {
     }
 
     @Test
-    public void recyclerViewItemDoesNothing() {
+    public void recyclerViewItem_DoesNothing() {
         onView(withIndex(withId(R.id.rvImages), 0))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
     }

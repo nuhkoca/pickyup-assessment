@@ -10,7 +10,7 @@ public class Constants {
     public static final int DEFAULT_INITIAL_LOAD_SIZE = 20;
     public static final String PICKYUP_SHARED_PREF = "pickyup-shared-pref";
     public static final String QUERY_PREF_KEY = "query-pref-key";
-    public static final String DEFAULT_QUERY_VALUE = "istanbul";
+    public static final String DEFAULT_QUERY_VALUE = "berlin";
     public static final String SEARCH_VIEW_STATE = "search-view-state";
     public static final String SEARCH_VIEW_QUERY_STATE = "search-view-query-state";
     public static final String PICKYUP_DATABASE_NAME = "PickyUp.db";

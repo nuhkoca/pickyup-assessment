@@ -30,7 +30,7 @@
     <style name="ProgressBarTheme">
         <item name="android:visibility">visible</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:indeterminateTint">@color/secondaryText</item>
+        <item name="android:indeterminateTint">@color/colorAccent</item>
     </style>
 
     <!-- Error Text Theme -->
@@ -74,10 +74,7 @@
 
     <!-- Image Desc Theme-->
     <style name="ImageDescTheme">
-        <item name="android:layout_marginBottom">8dp</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:paddingStart">8dp</item>
-        <item name="android:paddingEnd">8dp</item>
+        <item name="android:padding">8dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">@color/primaryText</item>
         <item name="android:fontFamily">sans-serif</item>
@@ -89,12 +86,11 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
         <item name="android:scaleType">centerCrop</item>
-        <item name="android:paddingEnd">8sp</item>
-        <item name="android:paddingBottom">8sp</item>
-        <item name="android:layout_marginTop">8sp</item>
+        <item name="android:paddingEnd">4dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:layout_marginTop">8dp</item>
         <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
         <item name="android:src">@drawable/ic_action_more</item>
-        <item name="android:layout_gravity">bottom|end</item>
     </style>
 
     <!-- Network State Error Text Theme -->

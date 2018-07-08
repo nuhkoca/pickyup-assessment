@@ -17,7 +17,6 @@ import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.ToxicBakery.viewpager.transforms.DepthPageTransformer;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -80,7 +79,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void setupUI() {
         mActivityMainBinding.vpImages.setOffscreenPageLimit(Constants.VIEW_PAGER_OFFSET_LIMIT);
         mActivityMainBinding.vpImages.setAdapter(new ViewPagerInflater(getSupportFragmentManager()));
-        mActivityMainBinding.vpImages.setPageTransformer(true, new DepthPageTransformer());
+
+        //disabled since other fragments become touchable besides the active one
+        //mActivityMainBinding.vpImages.setPageTransformer(true, new DepthPageTransformer());
 
         mActivityMainBinding.bnvImages.setOnNavigationItemSelectedListener(this);
 
@@ -205,6 +206,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         mBackPressed = System.currentTimeMillis();
     }
 
+    //caches the fragments in the backstack and survives against screen orientation
     public class ViewPagerInflater extends FragmentPagerAdapter {
         private Fragment frags[] = new Fragment[Constants.VIEW_PAGER_OFFSET_LIMIT];
 

@@ -12,7 +12,7 @@ import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
 
-@Database(entities = {FavoriteImages.class}, version = 1, exportSchema = false)
+@Database(entities = {FavoriteImages.class}, version = 2, exportSchema = false)
 public abstract class PickyUpDatabase extends RoomDatabase {
 
     private static PickyUpDatabase INSTANCE;
@@ -26,7 +26,7 @@ public abstract class PickyUpDatabase extends RoomDatabase {
                     INSTANCE =
                             Room.databaseBuilder(context.getApplicationContext(),
                                     PickyUpDatabase.class, Constants.PICKYUP_DATABASE_NAME)
-                                    .addMigrations(MIGRATION_1_2)
+                                    .addMigrations(MIGRATION_2_3)
                                     //.fallbackToDestructiveMigration()
                                     .build();
                 }
@@ -36,7 +36,7 @@ public abstract class PickyUpDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    private static final Migration MIGRATION_1_2 = new Migration(1, 2) {
+    private static final Migration MIGRATION_2_3 = new Migration(2, 3) {
         @Override
         public void migrate(@NonNull SupportSQLiteDatabase database) {
             //Since we won't alter the table, there's nothing else to do here.

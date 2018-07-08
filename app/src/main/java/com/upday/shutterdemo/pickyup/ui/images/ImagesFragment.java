@@ -431,11 +431,15 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
         String iid = images.getId();
         final String description = images.getDescription();
         String url = images.getAssets().getHugeThumb().getUrl();
+        double height = images.getAssets().getHugeThumb().getHeight();
+        double width = images.getAssets().getHugeThumb().getWidth();
 
         FavoriteImages favoriteImages = new FavoriteImages(
                 iid,
                 url,
-                description
+                description,
+                height,
+                width
         );
 
         FavoriteImagesRepository favoriteImagesRepository = new FavoriteImagesRepository(Objects.requireNonNull(getActivity()).getApplication());
