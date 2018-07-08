@@ -51,13 +51,20 @@ public class ShutterstockAPITest {
     private
     Observer<PagedList<Images>> observer;
 
+    private static final String QUERY = "berlin";
+    private static final String LANGUAGE = "en";
+    private static final boolean SAFE_SEARCH = true;
+    private static final String SORT = "popular";
+    private static final int PAGE = 1;
+    private static final int PAGE_SIZE = 20;
+
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         endpointRepository = mock(EndpointRepository.class);
         imageResultDataSourceFactory = spy(
-                new ImageResultDataSourceFactory("berlin", "en", true, "popular"));
+                new ImageResultDataSourceFactory(QUERY, LANGUAGE, SAFE_SEARCH, SORT));
 
         imagesFragmentViewModel = spy(new ImagesFragmentViewModel(imageResultDataSourceFactory));
 
@@ -76,7 +83,7 @@ public class ShutterstockAPITest {
 
         Assert.assertNotNull(observable);
 
-        when(endpointRepository.getImages("berlin", "en", true, "popular", 1, 20))
+        when(endpointRepository.getImages(QUERY, LANGUAGE, SAFE_SEARCH, SORT, PAGE, PAGE_SIZE))
                 .thenReturn(observable);
         when(observable.subscribeOn(Schedulers.immediate())).thenReturn(observable);
         when(observable.observeOn(Schedulers.immediate())).thenReturn(observable);
