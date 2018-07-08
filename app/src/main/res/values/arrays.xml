@@ -62,4 +62,34 @@
         <item>@string/random_value</item>
     </string-array>
 
+
+    <string-array name="confidence_labels">
+        <item>@string/confidence_0_5_label</item>
+        <item>@string/confidence_0_55_label</item>
+        <item>@string/confidence_0_6_label</item>
+        <item>@string/confidence_0_65_label</item>
+        <item>@string/confidence_0_7_label</item>
+        <item>@string/confidence_0_75_label</item>
+        <item>@string/confidence_0_8_label</item>
+        <item>@string/confidence_0_85_label</item>
+        <item>@string/confidence_0_9_label</item>
+        <item>@string/confidence_0_95_label</item>
+        <item>@string/confidence_0_99_label</item>
+    </string-array>
+
+    <string-array name="confidence_values">
+        <item>@string/confidence_0_5_value</item>
+        <item>@string/confidence_0_55_value</item>
+        <item>@string/confidence_0_6_value</item>
+        <item>@string/confidence_0_65_value</item>
+        <item>@string/confidence_0_7_value</item>
+        <item>@string/confidence_0_75_value</item>
+        <item>@string/confidence_0_8_value</item>
+        <item>@string/confidence_0_85_value</item>
+        <item>@string/confidence_0_9_value</item>
+        <item>@string/confidence_0_95_value</item>
+        <item>@string/confidence_0_99_value</item>
+    </string-array>
+
+
 </resources>

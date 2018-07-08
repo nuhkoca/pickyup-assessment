@@ -10,7 +10,7 @@ public class AspectUtils {
         ConstraintSet set = new ConstraintSet();
 
         String ratio = String.format(
-                Locale.getDefault(),
+                Locale.US,
                 "%f:%f",
                 width,
                 height);

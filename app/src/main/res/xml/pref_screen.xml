@@ -26,6 +26,17 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/firebase_mlkit_text">
+
+        <ListPreference android:title="@string/firebase_mlkit_confidence_title"
+            android:entries="@array/confidence_labels"
+            android:entryValues="@array/confidence_values"
+            android:defaultValue="@string/confidence_0_7_value"
+            android:summary="@string/firebase_mlkit_confidence_summary"
+            android:key="@string/confidence_key" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/about_menu_text">
 
         <Preference android:title="@string/third_party_header"

@@ -44,6 +44,8 @@ ext {
     googleAdsVersion = '15.0.1'
     adsVersion = '15.0.1'
     coreVersion = '16.0.1'
+    mlKitVersion = '16.0.0'
+    labelImageVersion = '15.0.0'
     aboutLibrariesVersion = '6.0.6'
     espressoVersion = '3.0.2'
     testVersion = '1.0.1'

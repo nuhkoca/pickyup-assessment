@@ -6,6 +6,8 @@ import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.content.SharedPreferences;
+import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.api.NetworkState;
 import com.upday.shutterdemo.pickyup.helper.AppsExecutor;
@@ -13,6 +15,7 @@ import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.remote.Images;
 import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFactory;
 import com.upday.shutterdemo.pickyup.ui.images.paging.PageKeyedImagesDataSource;
+import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
 
 public class ImagesFragmentViewModel extends ViewModel {
 
@@ -76,6 +79,10 @@ public class ImagesFragmentViewModel extends ViewModel {
                 .build();
 
         return mImagesResult;
+    }
+
+    public void generateLabelsFromBitmap(final ImageView imageView, SharedPreferences sharedPreferences) {
+        FirebaseMLKitUtils.generateLabelsFromBitmap(imageView, sharedPreferences);
     }
 
     @Override

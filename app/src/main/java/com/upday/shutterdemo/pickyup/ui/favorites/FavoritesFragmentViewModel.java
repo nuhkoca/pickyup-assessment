@@ -4,10 +4,13 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
+import android.content.SharedPreferences;
+import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
+import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
 
 public class FavoritesFragmentViewModel extends ViewModel {
 
@@ -39,6 +42,10 @@ public class FavoritesFragmentViewModel extends ViewModel {
         mFavoriteImagesList = new LivePagedListBuilder<>(mFavoriteImagesDao.getAll(), config).build();
 
         return mFavoriteImagesList;
+    }
+
+    public void generateLabelsFromBitmap(final ImageView imageView, SharedPreferences sharedPreferences) {
+        FirebaseMLKitUtils.generateLabelsFromBitmap(imageView, sharedPreferences);
     }
 
     @Override

@@ -8,6 +8,7 @@
     <string name="overflow_add_to_fav">Add to favorites</string>
     <string name="overflow_open_in_browser">Open in browser</string>
     <string name="overflow_remove_from_fav">Remove from favorites</string>
+    <string name="overflow_generate_labels">Generate labels</string>
     <string name="search_title">Search PickyUp</string>
     <string name="delete_all_title">Delete All</string>
     <string name="report_title">Report</string>
@@ -26,6 +27,8 @@
     <string name="item_deleted_info_text">You have successfully removed %s from your favorite list.</string>
     <string name="all_item_deleted_info_text">You have successfully removed all items from your favorite list.</string>
     <string name="all_item_removing_warning_title">Are you sure you want to delete all items from your favorite list?</string>
+    <string name="labels_title">Labels from the image</string>
+    <string name="no_label_warning_text">No label found for this image.</string>
 
 
     <!-- Intent String -->
@@ -38,9 +41,10 @@
     <string name="response_list_error_text">An error occurred.</string>
     <string name="no_result_error_text">Opps! As it seems, we didn\'t find anything for your request. Sorry!</string>
     <string name="no_item_in_db_warning_text">You don\'t have any item in your favorite list. First add some items!</string>
+    <string name="firebase_abide">Labels were generated remaining faithful to Firebase MLKit.</string>
 
     <!-- Preference Strings -->
-    <string name="images_pref_header">Image Preferences</string>
+    <string name="images_pref_header">Image Search Preferences</string>
 
     <!-- Content Descriptions -->
     <string name="image_content_description">This ImageView stands for each image of result.</string>
@@ -59,7 +63,7 @@
     <string name="de_lang_label">Deutsch</string>
     <string name="de_lang_value">de</string>
 
-    <string name="en_lang_label">English</string>
+    <string name="en_lang_label">English(default)</string>
     <string name="en_lang_value">en</string>
 
     <string name="es_lang_label">Spanish</string>
@@ -118,7 +122,7 @@
     <string name="newest_label">Newest</string>
     <string name="newest_value">newest</string>
 
-    <string name="popular_label">Popular</string>
+    <string name="popular_label">Popular(default)</string>
     <string name="popular_value">popular</string>
 
     <string name="relevance_label">Relevance</string>
@@ -141,5 +145,35 @@
     <string name="third_party_header">Third Party Libraries</string>
     <string name="third_party_subtext">Libraries that we inspire!</string>
     <string name="third_party_key">third-party</string>
+
+    <string name="firebase_mlkit_text">Firebase MLKit Preferences</string>
+
+    <string name="firebase_mlkit_confidence_title">Confidence</string>
+    <string name="firebase_mlkit_confidence_summary">Set confidence value for labels.</string>
+    <string name="confidence_key">confidence</string>
+
+    <string name="confidence_0_5_label">0.5</string>
+    <string name="confidence_0_55_label">0.55</string>
+    <string name="confidence_0_6_label">0.6</string>
+    <string name="confidence_0_65_label">0.65</string>
+    <string name="confidence_0_7_label">0.7(default)</string>
+    <string name="confidence_0_75_label">0.75</string>
+    <string name="confidence_0_8_label">0.8</string>
+    <string name="confidence_0_85_label">0.85</string>
+    <string name="confidence_0_9_label">0.9</string>
+    <string name="confidence_0_95_label">0.95</string>
+    <string name="confidence_0_99_label">0.99</string>
+
+    <string name="confidence_0_5_value">0.5</string>
+    <string name="confidence_0_55_value">0.55</string>
+    <string name="confidence_0_6_value">0.6</string>
+    <string name="confidence_0_65_value">0.65</string>
+    <string name="confidence_0_7_value">0.7</string>
+    <string name="confidence_0_75_value">0.75</string>
+    <string name="confidence_0_8_value">0.8</string>
+    <string name="confidence_0_85_value">0.85</string>
+    <string name="confidence_0_9_value">0.9</string>
+    <string name="confidence_0_95_value">0.95</string>
+    <string name="confidence_0_99_value">0.99</string>
 
 </resources>

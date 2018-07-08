@@ -27,6 +27,7 @@ You also need create a Firebase Project and download **google-services.json** in
 - [x] Users can remove any image from their favorites list.
 - [x] Users can change search criteria by the Settings page.
 - [x] Users can view original size of any image by the WebView page.
+- [x] Users can generate relative labels from images.
 
 ### Screenshots
 
@@ -116,6 +117,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 * [PowerMock](https://github.com/powermock/powermock)
 * [About Libraries](https://github.com/mikepenz/AboutLibraries)
 * [Google Admob](https://www.google.com/admob/)
+* [Firebase MLKit](hhttps://firebase.google.com/docs/ml-kit/)
 
 
 ### License

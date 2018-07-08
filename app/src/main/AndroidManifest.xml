@@ -26,6 +26,11 @@
         </activity>
         <activity android:name=".ui.WebViewActivity"
             android:parentActivityName=".ui.MainActivity"/>
+
+        <meta-data
+            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+            android:value="ocr" />
+
     </application>
 
 </manifest>

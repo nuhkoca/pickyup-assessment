@@ -25,6 +25,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
@@ -328,7 +329,9 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
             mSafeSearch = SharedPreferencesUtils.loadSafeSearchPreference(Objects.requireNonNull(getContext()), sharedPreferences);
         }
 
-        behaveAccordingToFirstRun();
+        if (!key.equals(getString(R.string.confidence_key))) {
+            behaveAccordingToFirstRun();
+        }
     }
 
     private void behaveAccordingToFirstRun() {
@@ -386,7 +389,7 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
     }
 
     @Override
-    public void onPopupMenuItemClick(final Images images, View view) {
+    public void onPopupMenuItemClick(final Images images, View view, final ImageView imageView) {
         PopupMenu popupMenu = new PopupMenu(Objects.requireNonNull(getActivity()), view);
 
         MenuInflater menuInflater = popupMenu.getMenuInflater();
@@ -411,6 +414,11 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
 
                                 startActivity(browserIntent,
                                         ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+
+                                break;
+
+                            case R.id.label_image:
+                                mImagesFragmentViewModel.generateLabelsFromBitmap(imageView, mSharedPreferences);
 
                                 break;
 

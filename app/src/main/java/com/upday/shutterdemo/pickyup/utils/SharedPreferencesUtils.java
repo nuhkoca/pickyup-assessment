@@ -2,6 +2,7 @@ package com.upday.shutterdemo.pickyup.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.TypedValue;
 
 import com.upday.shutterdemo.pickyup.PickyUpApp;
 import com.upday.shutterdemo.pickyup.R;
@@ -68,5 +69,9 @@ public class SharedPreferencesUtils {
     public static boolean loadSafeSearchPreference(Context context, SharedPreferences sharedPreferences) {
         return sharedPreferences.getBoolean(context.getString(R.string.image_safe_search_pref_key),
                 true);
+    }
+
+    public static String loadConfidencePreference(Context context, SharedPreferences sharedPreferences) {
+        return sharedPreferences.getString(context.getString(R.string.confidence_key), context.getString(R.string.confidence_0_7_value));
     }
 }
