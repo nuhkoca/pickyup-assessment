@@ -475,6 +475,24 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mSharedPreferences.registerOnSharedPreferenceChangeListener(this);
+    }
+
+    @Override
+    public void onPause() {
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        super.onPause();
+    }
+
+    @Override
+    public void onStop() {
+        mSharedPreferences.unregisterOnSharedPreferenceChangeListener(this);
+        super.onStop();
+    }
+
+    @Override
     public void onDestroy() {
         if (mImagesFragmentViewModel != null) {
             mImagesFragmentViewModel.onCleared();

@@ -49,6 +49,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
     //Support Library
     //noinspection GradleCompatible
     implementation "com.android.support:appcompat-v7:$rootProject.ext.supportLibVersion"

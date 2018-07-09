@@ -69,7 +69,7 @@ public class FavoritesAdapter extends PagedListAdapter<FavoriteImages, RecyclerV
 
             favoriteImagesItemLayoutBinding.executePendingBindings();
 
-            AspectUtils.equalizeAndApplyTo(
+            AspectUtils.calculateAndApplyTo(
                     favoriteImages.getWidth(),
                     favoriteImages.getHeight(),
                     favoriteImagesItemLayoutBinding.clFavoriteImageHolder,

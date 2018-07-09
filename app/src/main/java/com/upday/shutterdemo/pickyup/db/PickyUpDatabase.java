@@ -27,7 +27,7 @@ public abstract class PickyUpDatabase extends RoomDatabase {
                             Room.databaseBuilder(context.getApplicationContext(),
                                     PickyUpDatabase.class, Constants.PICKYUP_DATABASE_NAME)
                                     .addMigrations(MIGRATION_2_3)
-                                    //.fallbackToDestructiveMigration()
+                                    //.fallbackToDestructiveMigration() active when fatal changes
                                     .build();
                 }
             }

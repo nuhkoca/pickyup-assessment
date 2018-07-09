@@ -8,25 +8,25 @@ import android.content.SharedPreferences;
 import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.helper.Constants;
-import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
+import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
 
 public class FavoritesFragmentViewModel extends ViewModel {
 
     private LiveData<PagedList<FavoriteImages>> mFavoriteImagesList;
 
-    private FavoriteImagesDao mFavoriteImagesDao;
+    private FavoriteImagesRepository mFavoriteImagesRepository;
 
-    FavoritesFragmentViewModel(FavoriteImagesDao favoriteImagesDao) {
-        this.mFavoriteImagesDao = favoriteImagesDao;
+    FavoritesFragmentViewModel(FavoriteImagesRepository favoriteImagesRepository) {
+        this.mFavoriteImagesRepository = favoriteImagesRepository;
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
                 .setPrefetchDistance(Constants.PER_PAGE_SIZE)
                 .setPageSize(Constants.PER_PAGE_SIZE).build();
 
-        mFavoriteImagesList = new LivePagedListBuilder<>(mFavoriteImagesDao.getAll(), config).build();
+        mFavoriteImagesList = new LivePagedListBuilder<>(favoriteImagesRepository.getAll(), config).build();
     }
 
     public LiveData<PagedList<FavoriteImages>> getFavoriteImagesList() {
@@ -39,7 +39,7 @@ public class FavoritesFragmentViewModel extends ViewModel {
                 .setPrefetchDistance(Constants.PER_PAGE_SIZE)
                 .setPageSize(Constants.PER_PAGE_SIZE).build();
 
-        mFavoriteImagesList = new LivePagedListBuilder<>(mFavoriteImagesDao.getAll(), config).build();
+        mFavoriteImagesList = new LivePagedListBuilder<>(mFavoriteImagesRepository.getAll(), config).build();
 
         return mFavoriteImagesList;
     }

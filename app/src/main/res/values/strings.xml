@@ -29,10 +29,11 @@
     <string name="all_item_removing_warning_title">Are you sure you want to delete all items from your favorite list?</string>
     <string name="labels_title">Labels from the image</string>
     <string name="no_label_warning_text">No label found for this image.</string>
+    <string name="image_not_fully_loaded">Image is still loading. Please wait.</string>
 
 
     <!-- Intent String -->
-    <string name="mail_address">nuhkocaa@gmail.com</string>
+    <string name="mail_address" translatable="false">nuhkocaa@gmail.com</string>
     <string name="send_with">Send with…</string>
 
     <!-- Button/TextView Strings -->
@@ -52,88 +53,88 @@
 
     <string name="image_language_pref_title">Language</string>
     <string name="image_language_pref_summary">Set query and result language.</string>
-    <string name="image_language_pref_key">language</string>
+    <string name="image_language_pref_key" translatable="false">language</string>
 
     <string name="cs_lang_label">Czech</string>
-    <string name="cs_lang_value">cs</string>
+    <string name="cs_lang_value" translatable="false">cs</string>
 
     <string name="da_lang_label">Danish</string>
-    <string name="da_lang_value">da</string>
+    <string name="da_lang_value" translatable="false">da</string>
 
     <string name="de_lang_label">Deutsch</string>
-    <string name="de_lang_value">de</string>
+    <string name="de_lang_value" translatable="false">de</string>
 
     <string name="en_lang_label">English(default)</string>
-    <string name="en_lang_value">en</string>
+    <string name="en_lang_value" translatable="false">en</string>
 
     <string name="es_lang_label">Spanish</string>
-    <string name="es_lang_value">es</string>
+    <string name="es_lang_value" translatable="false">es</string>
 
     <string name="fi_lang_label">Finnish</string>
-    <string name="fi_lang_value">fi</string>
+    <string name="fi_lang_value" translatable="false">fi</string>
 
     <string name="fr_lang_label">French</string>
-    <string name="fr_lang_value">fr</string>
+    <string name="fr_lang_value" translatable="false">fr</string>
 
     <string name="hu_lang_label">Hungarian</string>
-    <string name="hu_lang_value">hu</string>
+    <string name="hu_lang_value" translatable="false">hu</string>
 
     <string name="it_lang_label">Italian</string>
-    <string name="it_lang_value">it</string>
+    <string name="it_lang_value" translatable="false">it</string>
 
     <string name="ja_lang_label">Japanese</string>
-    <string name="ja_lang_value">ja</string>
+    <string name="ja_lang_value" translatable="false">ja</string>
 
     <string name="ko_lang_label">Korean</string>
-    <string name="ko_lang_value">ko</string>
+    <string name="ko_lang_value" translatable="false">ko</string>
 
     <string name="nb_lang_label">Norwegian</string>
-    <string name="nb_lang_value">nb</string>
+    <string name="nb_lang_value" translatable="false">nb</string>
 
     <string name="nl_lang_label">Netherlandish</string>
-    <string name="nl_lang_value">nl</string>
+    <string name="nl_lang_value" translatable="false">nl</string>
 
     <string name="pl_lang_label">Polish</string>
-    <string name="pl_lang_value">pl</string>
+    <string name="pl_lang_value" translatable="false">pl</string>
 
     <string name="pt_lang_label">Portuguese</string>
-    <string name="pt_lang_value">pt</string>
+    <string name="pt_lang_value" translatable="false">pt</string>
 
     <string name="ru_lang_label">Russian</string>
-    <string name="ru_lang_value">ru</string>
+    <string name="ru_lang_value" translatable="false">ru</string>
 
     <string name="sv_lang_label">Swedish</string>
-    <string name="sv_lang_value">sv</string>
+    <string name="sv_lang_value" translatable="false">sv</string>
 
     <string name="th_lang_label">Thai</string>
-    <string name="th_lang_value">th</string>
+    <string name="th_lang_value" translatable="false">th</string>
 
     <string name="tr_lang_label">Turkish</string>
-    <string name="tr_lang_value">tr</string>
+    <string name="tr_lang_value" translatable="false">tr</string>
 
     <string name="zh_lang_label">Chinese</string>
-    <string name="zh_lang_value">zh</string>
+    <string name="zh_lang_value" translatable="false">zh</string>
 
 
     <string name="image_sorting_pref_title">Sorting</string>
     <string name="image_sorting_pref_summary">Sort order in the selected language.</string>
-    <string name="image_sorting_pref_key">sorting</string>
+    <string name="image_sorting_pref_key" translatable="false">sorting</string>
 
     <string name="newest_label">Newest</string>
-    <string name="newest_value">newest</string>
+    <string name="newest_value" translatable="false">newest</string>
 
     <string name="popular_label">Popular(default)</string>
-    <string name="popular_value">popular</string>
+    <string name="popular_value" translatable="false">popular</string>
 
     <string name="relevance_label">Relevance</string>
-    <string name="relevance_value">relevance</string>
+    <string name="relevance_value" translatable="false">relevance</string>
 
     <string name="random_label">Random</string>
-    <string name="random_value">random</string>
+    <string name="random_value" translatable="false">random</string>
 
     <string name="image_safe_search_pref_title">Safe search</string>
     <string name="image_safe_search_pref_summary">Enable or disable safe search.</string>
-    <string name="image_safe_search_pref_key">safe-search</string>
+    <string name="image_safe_search_pref_key" translatable="false">safe-search</string>
 
 
     <string name="safe_search_enabled_text">Safe search enabled.</string>
@@ -144,13 +145,13 @@
 
     <string name="third_party_header">Third Party Libraries</string>
     <string name="third_party_subtext">Libraries that we inspire!</string>
-    <string name="third_party_key">third-party</string>
+    <string name="third_party_key" translatable="false">third-party</string>
 
     <string name="firebase_mlkit_text">Firebase MLKit Preferences</string>
 
     <string name="firebase_mlkit_confidence_title">Confidence</string>
     <string name="firebase_mlkit_confidence_summary">Set confidence value for labels.</string>
-    <string name="confidence_key">confidence</string>
+    <string name="confidence_key" translatable="false">confidence</string>
 
     <string name="confidence_0_5_label">0.5</string>
     <string name="confidence_0_55_label">0.55</string>
@@ -164,16 +165,16 @@
     <string name="confidence_0_95_label">0.95</string>
     <string name="confidence_0_99_label">0.99</string>
 
-    <string name="confidence_0_5_value">0.5</string>
-    <string name="confidence_0_55_value">0.55</string>
-    <string name="confidence_0_6_value">0.6</string>
-    <string name="confidence_0_65_value">0.65</string>
-    <string name="confidence_0_7_value">0.7</string>
-    <string name="confidence_0_75_value">0.75</string>
-    <string name="confidence_0_8_value">0.8</string>
-    <string name="confidence_0_85_value">0.85</string>
-    <string name="confidence_0_9_value">0.9</string>
-    <string name="confidence_0_95_value">0.95</string>
-    <string name="confidence_0_99_value">0.99</string>
+    <string name="confidence_0_5_value" translatable="false">0.5</string>
+    <string name="confidence_0_55_value" translatable="false">0.55</string>
+    <string name="confidence_0_6_value" translatable="false">0.6</string>
+    <string name="confidence_0_65_value" translatable="false">0.65</string>
+    <string name="confidence_0_7_value" translatable="false">0.7</string>
+    <string name="confidence_0_75_value" translatable="false">0.75</string>
+    <string name="confidence_0_8_value" translatable="false">0.8</string>
+    <string name="confidence_0_85_value" translatable="false">0.85</string>
+    <string name="confidence_0_9_value" translatable="false">0.9</string>
+    <string name="confidence_0_95_value" translatable="false">0.95</string>
+    <string name="confidence_0_99_value" translatable="false">0.99</string>
 
 </resources>

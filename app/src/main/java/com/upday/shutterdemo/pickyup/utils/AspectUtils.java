@@ -6,7 +6,7 @@ import android.support.constraint.ConstraintSet;
 import java.util.Locale;
 
 public class AspectUtils {
-    public static void equalizeAndApplyTo(double width, double height, ConstraintLayout constraintLayout, int viewId) {
+    public static void calculateAndApplyTo(double width, double height, ConstraintLayout constraintLayout, int viewId) {
         ConstraintSet set = new ConstraintSet();
 
         String ratio = String.format(

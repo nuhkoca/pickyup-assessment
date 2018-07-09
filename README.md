@@ -33,9 +33,9 @@ You also need create a Firebase Project and download **google-services.json** in
 
 #### Phone
 
-Images Screen             |  Favorites Screen |  Settings Screen | WebView Screen
-:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
-![](art/1.png)  |  ![](art/2.png) |  ![](art/3.png) | ![](art/4.png)
+Images Screen             |  Favorites Screen |  Settings Screen | WebView Screen  | Image Labeling
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:
+![](art/1.png)  |  ![](art/2.png) |  ![](art/3.png) | ![](art/4.png)   |  ![](art/5.png)
 
 
 #### Tablet
@@ -44,14 +44,14 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 
 ### Description of the problems and solutions
 
-1. Bottom Navigation View was overlapping RecyclerView's items. That is why **56dp**(Bottom Navigation View height) padding was used for the ViewPager which holds Fragments. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/res/layout/activity_main.xml#L17)
-2. Snackbar was insisting to placed in front of the Bottom Navigation View and it was fixed using **56dp-~170px with drop shadow**(Bottom Navigation View height) margin bottom. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/utils/SnackbarUtils.java#L69)
-3. App used to close when back pressed even if search bar is not empty. This is because **Custom SearchView** was created and query checking mechanism was implemented when back pressed. If search bar is not empty, in first backpresses, SearchView gets collapsed and cleaned then app is closed. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/MainActivity.java#L182)
-4. Query used to not preserve its state in case of screen rotation and users had to re-type their queries. Therefore **saveInstanceState** was implemented. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L310)
-5. In very first run, app was crashing due to the fact that **onSharedPreferenceChanged** method was called even if values have their existing ones. A logic that controls first run was developed and the crash is avoided. Please note, this might be a temporary solution. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L335)
-6. Images on WebView were too big and it was fixed by a couple of code block. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/WebViewActivity.java#L74)
-7. Sometimes accessing to resources in unit tests is too hard. In this case, Mockito jumps in! I was able to fix resource access by its @Mock annotation which imitates context and so on integrating when and thenReturn methods. [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/test/java/com/upday/shutterdemo/pickyup/EmailValidatorTest.java#L35)
-8. Accessing to static or final classes in unit test is kinda torture. Since I need to access to some of static and final classes to test RxJava, Observable and Observers, I had to use the power of PowerMock! [Link](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/test/java/com/upday/shutterdemo/pickyup/ShutterstockAPITest.java#L37)
+1. Bottom Navigation View was overlapping RecyclerView's items. That is why **56dp**(Bottom Navigation View height) padding was used for the ViewPager which holds Fragments. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/res/layout/activity_main.xml#L17)
+2. Snackbar was insisting to placed in front of the Bottom Navigation View and it was fixed using **56dp-~170px with drop shadow**(Bottom Navigation View height) margin bottom. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/utils/SnackbarUtils.java#L69)
+3. App used to close when back pressed even if search bar is not empty. This is because **Custom SearchView** was created and query checking mechanism was implemented when back pressed. If search bar is not empty, in first backpresses, SearchView gets collapsed and cleaned then app is closed. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/MainActivity.java#L182)
+4. Query used to not preserve its state in case of screen rotation and users had to re-type their queries. Therefore **saveInstanceState** was implemented. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L310)
+5. In very first run, app was crashing due to the fact that **onSharedPreferenceChanged** method was called even if values have their existing ones. A logic that controls first run was developed and the crash is avoided. Please note, this might be a temporary solution. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/images/ImagesFragment.java#L335)
+6. Images on WebView were too big and it was fixed by a couple of code block. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/main/java/com/upday/shutterdemo/pickyup/ui/WebViewActivity.java#L74)
+7. Sometimes accessing to resources in unit tests is too hard. In this case, Mockito jumps in! I was able to fix resource access by its @Mock annotation which imitates context and so on integrating when and thenReturn methods. [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/test/java/com/upday/shutterdemo/pickyup/EmailValidatorTest.java#L35)
+8. Accessing to static or final classes in unit test is kinda torture. Since I need to access to some of static and final classes to test RxJava, Observable and Observers, I had to use the power of PowerMock! [Link to solution](https://github.com/nuhkoca/pickyup-assessment/blob/master/app/src/test/java/com/upday/shutterdemo/pickyup/ShutterstockAPITest.java#L37)
 9. No more issue! :)
 
 ### Reasoning technical choices
@@ -117,7 +117,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 * [PowerMock](https://github.com/powermock/powermock)
 * [About Libraries](https://github.com/mikepenz/AboutLibraries)
 * [Google Admob](https://www.google.com/admob/)
-* [Firebase MLKit](hhttps://firebase.google.com/docs/ml-kit/)
+* [Firebase MLKit](https://firebase.google.com/docs/ml-kit/)
 
 
 ### License

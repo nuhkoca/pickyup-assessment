@@ -121,7 +121,7 @@ public class ImagesAdapter extends PagedListAdapter<Images, RecyclerView.ViewHol
 
             imagesItemLayoutBinding.executePendingBindings();
 
-            AspectUtils.equalizeAndApplyTo(
+            AspectUtils.calculateAndApplyTo(
                     images.getAssets().getHugeThumb().getWidth(),
                     images.getAssets().getHugeThumb().getHeight(),
                     imagesItemLayoutBinding.clImagesHolder,

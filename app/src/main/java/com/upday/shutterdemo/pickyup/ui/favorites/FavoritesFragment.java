@@ -28,9 +28,7 @@ import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.callback.IMenuItemIdListener;
 import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.databinding.CustomImagesLayoutBinding;
-import com.upday.shutterdemo.pickyup.db.PickyUpDatabase;
 import com.upday.shutterdemo.pickyup.helper.Constants;
-import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
 import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.ui.WebViewActivity;
@@ -100,12 +98,10 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
         super.onActivityCreated(savedInstanceState);
 
         if (getContext() != null) {
-            FavoriteImagesDao favoriteImagesDao = PickyUpDatabase.getInstance(getContext()).favoriteImagesDao();
-
             mFavoriteImagesRepository = new FavoriteImagesRepository(Objects.requireNonNull(getActivity()).getApplication());
 
             mFavoritesFragmentViewModel = ViewModelProviders.of(this,
-                    new FavoritesFragmentViewModelFactory(favoriteImagesDao)).get(FavoritesFragmentViewModel.class);
+                    new FavoritesFragmentViewModelFactory(mFavoriteImagesRepository)).get(FavoritesFragmentViewModel.class);
         }
 
         mFavoritesFragmentViewModel.getFavoriteImagesList().observe(this, new Observer<PagedList<FavoriteImages>>() {
@@ -141,7 +137,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
 
         switch (itemThatWasClicked) {
             case R.id.delete_all:
-                deleteAll(mFavoriteImagesRepository);
+                deleteAll();
                 return true;
 
             default:
@@ -166,7 +162,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
                     public void onItemIdReceived(int itemId) {
                         switch (itemId) {
                             case R.id.remove_from_fav:
-                                deleteItem(mFavoriteImagesRepository, favoriteImages);
+                                deleteItem(favoriteImages);
 
                                 break;
 
@@ -198,7 +194,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
         popupMenu.show();
     }
 
-    private void deleteItem(final FavoriteImagesRepository favoriteImagesRepository, final FavoriteImages favoriteImages) {
+    private void deleteItem(final FavoriteImages favoriteImages) {
         AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
                 .setTitle(String.format(getString(R.string.item_removing_warning_title), favoriteImages.getDescription()))
                 .setMessage(getString(R.string.item_removing_warning_text))
@@ -208,7 +204,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        favoriteImagesRepository.deleteItem(favoriteImages.getIid());
+                        mFavoriteImagesRepository.deleteItem(favoriteImages.getIid());
                         getAll();
 
                         new SnackbarUtils.Builder()
@@ -229,7 +225,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
         builder.create().show();
     }
 
-    private void deleteAll(final FavoriteImagesRepository favoriteImagesRepository) {
+    private void deleteAll() {
         if (mFavoriteImages != null && mFavoriteImages.size() > 0) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
@@ -241,7 +237,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-                            favoriteImagesRepository.deleteAll();
+                            mFavoriteImagesRepository.deleteAll();
                             getAll();
 
                             new SnackbarUtils.Builder()

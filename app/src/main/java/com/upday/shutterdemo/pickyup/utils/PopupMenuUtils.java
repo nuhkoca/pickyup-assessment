@@ -25,9 +25,11 @@ public class PopupMenuUtils {
             return this;
         }
 
+        int itemThatWasClicked;
+
         @Override
         public boolean onMenuItemClick(MenuItem item) {
-            int itemThatWasClicked = item.getItemId();
+            itemThatWasClicked = item.getItemId();
 
             this.iMenuItemIdListener.onItemIdReceived(itemThatWasClicked);
 
