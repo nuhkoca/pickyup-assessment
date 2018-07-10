@@ -30,6 +30,7 @@
     <string name="labels_title">Labels from the image</string>
     <string name="no_label_warning_text">No label found for this image.</string>
     <string name="image_not_fully_loaded">Image is still loading. Please wait.</string>
+    <string name="emulator_detected">This function is not feasible in emulators.</string>
 
 
     <!-- Intent String -->

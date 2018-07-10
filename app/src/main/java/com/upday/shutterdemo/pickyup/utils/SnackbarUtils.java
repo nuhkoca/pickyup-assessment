@@ -4,6 +4,8 @@ import android.support.design.widget.Snackbar;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.upday.shutterdemo.pickyup.R;
+
 public class SnackbarUtils {
 
     public enum Length {
@@ -66,7 +68,12 @@ public class SnackbarUtils {
 
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
 
-            layoutParams.setMargins(0, 0, 0, 170);
+
+            if (!getView().getContext().getResources().getBoolean(R.bool.isTablet)) {
+                layoutParams.setMargins(0, 0, 0, 168);
+            } else {
+                layoutParams.setMargins(0, 0, 0, 112);
+            }
 
             snackbar.getView().setLayoutParams(layoutParams);
 

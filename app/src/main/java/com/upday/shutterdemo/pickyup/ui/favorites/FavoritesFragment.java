@@ -41,7 +41,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoritesFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, IPopupMenuItemClickListener.Favorites {
+public class FavoritesFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, IPopupMenuItemClickListener<FavoriteImages> {
 
     private CustomImagesLayoutBinding mCustomImagesLayoutBinding;
     private FavoritesFragmentViewModel mFavoritesFragmentViewModel;

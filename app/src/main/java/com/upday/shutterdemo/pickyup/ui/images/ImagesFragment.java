@@ -53,7 +53,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ImagesFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, IRetryListener, View.OnClickListener, IPopupMenuItemClickListener {
+public class ImagesFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, IRetryListener, View.OnClickListener, IPopupMenuItemClickListener<Images> {
 
     private CustomImagesLayoutBinding mCustomImagesLayoutBinding;
     private ImagesFragmentViewModel mImagesFragmentViewModel;

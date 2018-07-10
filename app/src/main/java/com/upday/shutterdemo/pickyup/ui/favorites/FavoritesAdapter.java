@@ -18,9 +18,9 @@ import com.upday.shutterdemo.pickyup.utils.AspectUtils;
 
 public class FavoritesAdapter extends PagedListAdapter<FavoriteImages, RecyclerView.ViewHolder> {
 
-    private IPopupMenuItemClickListener.Favorites mIPopupMenuItemClickListener;
+    private IPopupMenuItemClickListener mIPopupMenuItemClickListener;
 
-    FavoritesAdapter(IPopupMenuItemClickListener.Favorites iPopupMenuItemClickListener) {
+    FavoritesAdapter(IPopupMenuItemClickListener iPopupMenuItemClickListener) {
         super(FavoriteImages.DIFF_CALLBACK);
 
         this.mIPopupMenuItemClickListener = iPopupMenuItemClickListener;

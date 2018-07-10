@@ -114,7 +114,7 @@ public class ImagesAdapter extends PagedListAdapter<Images, RecyclerView.ViewHol
             imagesItemLayoutBinding = DataBindingUtil.getBinding(itemView);
         }
 
-        void bindTo(Images images) {
+        void bindTo(final Images images) {
             imagesItemLayoutBinding.setVariable(BR.images, images);
             imagesItemLayoutBinding.setVariable(BR.image, images.getAssets().getHugeThumb());
             imagesItemLayoutBinding.setVariable(BR.popupItemClickListener, mIPopupMenuItemClickListener);

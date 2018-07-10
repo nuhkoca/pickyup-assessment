@@ -9,7 +9,7 @@
 
         <variable
             name="popupItemClickListener"
-            type="com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener.Favorites" />
+            type="com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener" />
 
     </data>
 
