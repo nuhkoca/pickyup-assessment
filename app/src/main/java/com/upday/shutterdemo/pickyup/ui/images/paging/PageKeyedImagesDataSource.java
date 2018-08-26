@@ -13,6 +13,8 @@ import com.upday.shutterdemo.pickyup.repository.api.EndpointRepository;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,7 +24,8 @@ import timber.log.Timber;
 
 public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images> {
 
-    private EndpointRepository mEndpointRepository;
+    @Inject
+    EndpointRepository endpointRepository;
 
     private MutableLiveData<NetworkState> mNetworkState;
     private MutableLiveData<NetworkState> mInitialLoading;
@@ -33,8 +36,6 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
     private String mSort;
 
     PageKeyedImagesDataSource(String query, String language, boolean safeSearch, String sort) {
-        mEndpointRepository = EndpointRepository.getInstance();
-
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();
 
@@ -59,7 +60,7 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
         mNetworkState.postValue(NetworkState.LOADING);
         mInitialLoading.postValue(NetworkState.LOADING);
 
-        mEndpointRepository.getImages(mQuery, mLanguage, mSafeSearch, mSort, 1, params.requestedLoadSize)
+        endpointRepository.getImages(mQuery, mLanguage, mSafeSearch, mSort, 1, params.requestedLoadSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(Constants.DEFAULT_RETRY_COUNT)
@@ -113,7 +114,7 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
 
         mNetworkState.postValue(NetworkState.LOADING);
 
-        mEndpointRepository.getImages(mQuery, mLanguage, mSafeSearch, mSort, params.key, params.requestedLoadSize)
+        endpointRepository.getImages(mQuery, mLanguage, mSafeSearch, mSort, params.key, params.requestedLoadSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(Constants.DEFAULT_RETRY_COUNT)

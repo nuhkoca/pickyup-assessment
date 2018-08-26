@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -28,7 +27,9 @@ import com.upday.shutterdemo.pickyup.ui.favorites.FavoritesFragment;
 import com.upday.shutterdemo.pickyup.ui.images.ImagesFragment;
 import com.upday.shutterdemo.pickyup.ui.settings.SettingsFragment;
 
-public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class MainActivity extends DaggerAppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
 
     private ActivityMainBinding mActivityMainBinding;
 

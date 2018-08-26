@@ -2,6 +2,7 @@ package com.upday.shutterdemo.pickyup.ui.favorites;
 
 import android.app.ActivityOptions;
 import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
 import android.content.DialogInterface;
@@ -38,14 +39,23 @@ import com.upday.shutterdemo.pickyup.utils.SnackbarUtils;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FavoritesFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, IPopupMenuItemClickListener<FavoriteImages> {
+public class FavoritesFragment extends DaggerFragment implements SharedPreferences.OnSharedPreferenceChangeListener, IPopupMenuItemClickListener<FavoriteImages> {
 
     private CustomImagesLayoutBinding mCustomImagesLayoutBinding;
     private FavoritesFragmentViewModel mFavoritesFragmentViewModel;
-    private FavoriteImagesRepository mFavoriteImagesRepository;
+
+    @Inject
+    FavoriteImagesRepository favoriteImagesRepository;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
 
     private FavoritesAdapter mFavoritesAdapter;
 
@@ -98,10 +108,8 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
         super.onActivityCreated(savedInstanceState);
 
         if (getContext() != null) {
-            mFavoriteImagesRepository = new FavoriteImagesRepository(Objects.requireNonNull(getActivity()).getApplication());
-
             mFavoritesFragmentViewModel = ViewModelProviders.of(this,
-                    new FavoritesFragmentViewModelFactory(mFavoriteImagesRepository)).get(FavoritesFragmentViewModel.class);
+                    viewModelFactory).get(FavoritesFragmentViewModel.class);
         }
 
         mFavoritesFragmentViewModel.getFavoriteImagesList().observe(this, new Observer<PagedList<FavoriteImages>>() {
@@ -204,7 +212,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
 
-                        mFavoriteImagesRepository.deleteItem(favoriteImages.getIid());
+                        favoriteImagesRepository.deleteItem(favoriteImages.getIid());
                         getAll();
 
                         new SnackbarUtils.Builder()
@@ -237,7 +245,7 @@ public class FavoritesFragment extends Fragment implements SharedPreferences.OnS
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
 
-                            mFavoriteImagesRepository.deleteAll();
+                            favoriteImagesRepository.deleteAll();
                             getAll();
 
                             new SnackbarUtils.Builder()

@@ -72,6 +72,12 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$rootProject.ext.lifeCycleVersion"
     testImplementation "android.arch.core:core-testing:$rootProject.ext.lifeCycleVersion"
 
+    //Dagger
+    implementation "com.google.dagger:dagger:$rootProject.ext.daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$rootProject.ext.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$rootProject.ext.daggerVersion"
+    annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
+
     //Retrofit
     implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.rxJavaVersion"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.rxJavaVersion"

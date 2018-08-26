@@ -4,11 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.databinding.DataBindingUtil;
 import android.graphics.Bitmap;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,7 +24,9 @@ import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.databinding.ActivityWebViewBinding;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 
-public class WebViewActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class WebViewActivity extends DaggerAppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     private ActivityWebViewBinding mActivityWebViewBinding;
 

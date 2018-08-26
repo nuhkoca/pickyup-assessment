@@ -12,12 +12,15 @@ import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
 import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
 
+import javax.inject.Inject;
+
 public class FavoritesFragmentViewModel extends ViewModel {
 
     private LiveData<PagedList<FavoriteImages>> mFavoriteImagesList;
 
     private FavoriteImagesRepository mFavoriteImagesRepository;
 
+    @Inject
     FavoritesFragmentViewModel(FavoriteImagesRepository favoriteImagesRepository) {
         this.mFavoriteImagesRepository = favoriteImagesRepository;
 

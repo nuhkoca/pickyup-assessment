@@ -101,6 +101,7 @@ _Soon_ - **Genymotion doesn't support screenshot for free licenses.**
 * [Architecture Components](https://developer.android.com/topic/libraries/architecture/)
 * [BindingAdapter](https://developer.android.com/reference/android/databinding/BindingAdapter.html)
 * [ConstraintLayout](https://developer.android.com/training/constraint-layout/)
+* [Dagger2](https://github.com/google/dagger)
 * [Retrofit2](https://github.com/square/retrofit)
 * [RxJava2](https://github.com/ReactiveX/RxJava)
 * [Glide](https://github.com/bumptech/glide)

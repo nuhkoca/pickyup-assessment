@@ -50,10 +50,14 @@ import com.upday.shutterdemo.pickyup.utils.SnackbarUtils;
 
 import java.util.Objects;
 
+import javax.inject.Inject;
+
+import dagger.android.support.DaggerFragment;
+
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ImagesFragment extends Fragment implements SharedPreferences.OnSharedPreferenceChangeListener, IRetryListener, View.OnClickListener, IPopupMenuItemClickListener<Images> {
+public class ImagesFragment extends DaggerFragment implements SharedPreferences.OnSharedPreferenceChangeListener, IRetryListener, View.OnClickListener, IPopupMenuItemClickListener<Images> {
 
     private CustomImagesLayoutBinding mCustomImagesLayoutBinding;
     private ImagesFragmentViewModel mImagesFragmentViewModel;
@@ -70,6 +74,9 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
     private String mLanguage;
     private boolean mSafeSearch;
     private String mSorting;
+
+    @Inject
+    FavoriteImagesRepository favoriteImagesRepository;
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;
@@ -449,8 +456,6 @@ public class ImagesFragment extends Fragment implements SharedPreferences.OnShar
                 height,
                 width
         );
-
-        FavoriteImagesRepository favoriteImagesRepository = new FavoriteImagesRepository(Objects.requireNonNull(getActivity()).getApplication());
 
         favoriteImagesRepository.insertOrThrow(favoriteImages, iid, new IDatabaseProgressListener() {
             @Override

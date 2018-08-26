@@ -1,36 +1,38 @@
 package com.upday.shutterdemo.pickyup.repository.db;
 
-import android.app.Application;
 import android.arch.paging.DataSource;
 import android.os.AsyncTask;
 
 import com.upday.shutterdemo.pickyup.callback.IDatabaseProgressListener;
-import com.upday.shutterdemo.pickyup.db.PickyUpDatabase;
 import com.upday.shutterdemo.pickyup.helper.AppsExecutor;
 import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
 
-public class FavoriteImagesRepository {
-    private FavoriteImagesDao mFavoriteImagesDao;
+import javax.inject.Inject;
 
-    public FavoriteImagesRepository(Application application) {
-        PickyUpDatabase pickyUpDatabase = PickyUpDatabase.getInstance(application);
-        mFavoriteImagesDao = pickyUpDatabase.favoriteImagesDao();
+public class FavoriteImagesRepository {
+
+    private FavoriteImagesDao favoriteImagesDao;
+
+    @Inject
+    public FavoriteImagesRepository(FavoriteImagesDao favoriteImagesDao) {
+        this.favoriteImagesDao = favoriteImagesDao;
+
     }
 
     public DataSource.Factory<Integer, FavoriteImages> getAll() {
-        return mFavoriteImagesDao.getAll();
+        return favoriteImagesDao.getAll();
     }
 
     public void insertOrThrow(FavoriteImages favoriteCountries, String cid, IDatabaseProgressListener iDatabaseProgressListener) {
-        new insertOrThrowAsync(cid, mFavoriteImagesDao, iDatabaseProgressListener).execute(favoriteCountries);
+        new insertOrThrowAsync(cid, favoriteImagesDao, iDatabaseProgressListener).execute(favoriteCountries);
     }
 
     public void deleteItem(final String iid) {
         AppsExecutor.backgroundThread().execute(new Runnable() {
             @Override
             public void run() {
-                mFavoriteImagesDao.deleteItem(iid);
+                favoriteImagesDao.deleteItem(iid);
             }
         });
     }
@@ -39,7 +41,7 @@ public class FavoriteImagesRepository {
         AppsExecutor.backgroundThread().execute(new Runnable() {
             @Override
             public void run() {
-                mFavoriteImagesDao.deleteAll();
+                favoriteImagesDao.deleteAll();
             }
         });
     }
