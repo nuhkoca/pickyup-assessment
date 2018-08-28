@@ -1,11 +1,9 @@
 package com.upday.shutterdemo.pickyup.ui.favorites;
 
 import android.app.ActivityOptions;
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.arch.paging.PagedList;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
@@ -26,7 +24,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.R;
-import com.upday.shutterdemo.pickyup.callback.IMenuItemIdListener;
 import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.databinding.CustomImagesLayoutBinding;
 import com.upday.shutterdemo.pickyup.helper.Constants;
@@ -35,6 +32,7 @@ import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.ui.WebViewActivity;
 import com.upday.shutterdemo.pickyup.utils.ColumnUtils;
 import com.upday.shutterdemo.pickyup.utils.PopupMenuUtils;
+import com.upday.shutterdemo.pickyup.utils.SharedPreferencesUtils;
 import com.upday.shutterdemo.pickyup.utils.SnackbarUtils;
 
 import java.util.Objects;
@@ -53,6 +51,9 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
 
     @Inject
     FavoriteImagesRepository favoriteImagesRepository;
+
+    @Inject
+    SharedPreferencesUtils sharedPreferencesUtils;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -112,20 +113,17 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
                     viewModelFactory).get(FavoritesFragmentViewModel.class);
         }
 
-        mFavoritesFragmentViewModel.getFavoriteImagesList().observe(this, new Observer<PagedList<FavoriteImages>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<FavoriteImages> favoriteImages) {
-                if (favoriteImages != null && favoriteImages.size() > 0) {
-                    mFavoritesAdapter.submitList(favoriteImages);
-                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
-                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
+        mFavoritesFragmentViewModel.getFavoriteImagesList().observe(this, favoriteImages -> {
+            if (favoriteImages != null && favoriteImages.size() > 0) {
+                mFavoritesAdapter.submitList(favoriteImages);
+                mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
+                mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
 
-                    mFavoriteImages = favoriteImages;
-                } else {
-                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
-                    mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.no_item_in_db_warning_text));
-                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
-                }
+                mFavoriteImages = favoriteImages;
+            } else {
+                mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
+                mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.no_item_in_db_warning_text));
+                mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
             }
         });
 
@@ -165,33 +163,30 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
         popupMenu.getMenu().findItem(R.id.add_to_fav).setVisible(false);
 
         PopupMenuUtils.Builder builder = new PopupMenuUtils.Builder()
-                .listener(new IMenuItemIdListener() {
-                    @Override
-                    public void onItemIdReceived(int itemId) {
-                        switch (itemId) {
-                            case R.id.remove_from_fav:
-                                deleteItem(favoriteImages);
+                .listener(itemId -> {
+                    switch (itemId) {
+                        case R.id.remove_from_fav:
+                            deleteItem(favoriteImages);
 
-                                break;
+                            break;
 
-                            case R.id.open_in_browser:
-                                Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
-                                browserIntent.putExtra(Constants.WEB_URL_KEY,
-                                        favoriteImages.getUrl());
+                        case R.id.open_in_browser:
+                            Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
+                            browserIntent.putExtra(Constants.WEB_URL_KEY,
+                                    favoriteImages.getUrl());
 
-                                startActivity(browserIntent,
-                                        ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                            startActivity(browserIntent,
+                                    ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
 
-                                break;
+                            break;
 
-                            case R.id.label_image:
-                                mFavoritesFragmentViewModel.generateLabelsFromBitmap(imageView, mSharedPreferences);
+                        case R.id.label_image:
+                            mFavoritesFragmentViewModel.generateLabelsFromBitmap(imageView);
 
-                                break;
+                            break;
 
-                            default:
-                                break;
-                        }
+                        default:
+                            break;
                     }
                 });
 
@@ -207,28 +202,20 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
                 .setTitle(String.format(getString(R.string.item_removing_warning_title), favoriteImages.getDescription()))
                 .setMessage(getString(R.string.item_removing_warning_text))
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok_action_text), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                .setPositiveButton(getString(R.string.ok_action_text), (dialog, which) -> {
+                    dialog.dismiss();
 
-                        favoriteImagesRepository.deleteItem(favoriteImages.getIid());
-                        getAll();
+                    favoriteImagesRepository.deleteItem(favoriteImages.getIid());
+                    getAll();
 
-                        new SnackbarUtils.Builder()
-                                .setView(mCustomImagesLayoutBinding.clImages)
-                                .setMessage(String.format(getString(R.string.item_deleted_info_text), favoriteImages.getDescription()))
-                                .setLength(SnackbarUtils.Length.LONG)
-                                .show(getString(R.string.dismiss_action_text))
-                                .build();
-                    }
+                    new SnackbarUtils.Builder()
+                            .setView(mCustomImagesLayoutBinding.clImages)
+                            .setMessage(String.format(getString(R.string.item_deleted_info_text), favoriteImages.getDescription()))
+                            .setLength(SnackbarUtils.Length.LONG)
+                            .show(getString(R.string.dismiss_action_text))
+                            .build();
                 })
-                .setNegativeButton(getString(R.string.cancel_action_text), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
+                .setNegativeButton(getString(R.string.cancel_action_text), (dialog, which) -> dialog.dismiss());
 
         builder.create().show();
     }
@@ -240,47 +227,38 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
                     .setTitle(getString(R.string.all_item_removing_warning_title))
                     .setMessage(getString(R.string.item_removing_warning_text))
                     .setCancelable(false)
-                    .setPositiveButton(getString(R.string.ok_action_text), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
+                    .setPositiveButton(getString(R.string.ok_action_text), (dialog, which) -> {
+                        dialog.dismiss();
 
-                            favoriteImagesRepository.deleteAll();
-                            getAll();
+                        favoriteImagesRepository.deleteAll();
+                        getAll();
 
-                            new SnackbarUtils.Builder()
-                                    .setView(mCustomImagesLayoutBinding.clImages)
-                                    .setMessage(getString(R.string.all_item_deleted_info_text))
-                                    .setLength(SnackbarUtils.Length.LONG)
-                                    .show(getString(R.string.dismiss_action_text))
-                                    .build();
-                        }
+                        new SnackbarUtils.Builder()
+                                .setView(mCustomImagesLayoutBinding.clImages)
+                                .setMessage(getString(R.string.all_item_deleted_info_text))
+                                .setLength(SnackbarUtils.Length.LONG)
+                                .show(getString(R.string.dismiss_action_text))
+                                .build();
                     })
-                    .setNegativeButton(getString(R.string.cancel_action_text), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
+                    .setNegativeButton(getString(R.string.cancel_action_text), (dialog, which) -> dialog.dismiss());
 
             builder.create().show();
         }
     }
 
     private void getAll() {
-        mFavoritesFragmentViewModel.retrieveFavoriteImagesList().observe(this, new Observer<PagedList<FavoriteImages>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<FavoriteImages> favoriteImages) {
-                mFavoritesAdapter.submitList(null);
-                mFavoritesAdapter.submitList(favoriteImages);
-                mFavoriteImages = favoriteImages;
-            }
+        mFavoritesFragmentViewModel.retrieveFavoriteImagesList().observe(this, favoriteImages -> {
+            mFavoritesAdapter.submitList(null);
+            mFavoritesAdapter.submitList(favoriteImages);
+            mFavoriteImages = favoriteImages;
         });
     }
 
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-
+        if (key.equals(getString(R.string.confidence_key))) {
+            sharedPreferencesUtils.putStringData(getString(R.string.confidence_key), getString(R.string.confidence_0_7_value));
+        }
     }
 
     @Override

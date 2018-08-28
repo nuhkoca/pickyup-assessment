@@ -5,7 +5,7 @@ import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
 
 import javax.inject.Inject;
 
-import rx.Observable;
+import io.reactivex.Single;
 
 public class EndpointRepository {
 
@@ -16,7 +16,7 @@ public class EndpointRepository {
         this.iShutterstockAPI = iShutterstockAPI;
     }
 
-    public Observable<ImagesWrapper> getImages(String query, String language, boolean safeSearch, String sort, long page, int perPage) {
+    public Single<ImagesWrapper> getImages(String query, String language, boolean safeSearch, String sort, long page, int perPage) {
         return iShutterstockAPI.getImages(query, language, safeSearch, sort, page, perPage);
     }
 }

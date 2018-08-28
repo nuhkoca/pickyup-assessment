@@ -20,6 +20,7 @@ import dagger.Provides;
 public class RoomModule {
 
     @Provides
+    @Singleton
     Migration provideMigration(){
         return new Migration(2,3) {
             @Override
@@ -32,7 +33,9 @@ public class RoomModule {
     @Provides
     @Singleton
     PickyUpDatabase providePickyUpDatabase(Application application, Migration migration){
-        return Room.databaseBuilder(application, PickyUpDatabase.class, Constants.PICKYUP_DATABASE_NAME).build();
+        return Room.databaseBuilder(application, PickyUpDatabase.class, Constants.PICKYUP_DATABASE_NAME)
+                .addMigrations(migration)
+                .build();
     }
 
     @Provides

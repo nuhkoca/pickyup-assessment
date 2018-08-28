@@ -1,12 +1,10 @@
 package com.upday.shutterdemo.pickyup.ui.images;
 
-import android.arch.core.util.Function;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.content.SharedPreferences;
 import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.api.NetworkState;
@@ -17,30 +15,27 @@ import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFacto
 import com.upday.shutterdemo.pickyup.ui.images.paging.PageKeyedImagesDataSource;
 import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
 
+import javax.inject.Inject;
+
 public class ImagesFragmentViewModel extends ViewModel {
 
     private LiveData<NetworkState> mNetworkState;
     private LiveData<NetworkState> mInitialLoading;
     private LiveData<PagedList<Images>> mImagesResult;
+
     private ImageResultDataSourceFactory imageResultDataSourceFactory;
 
+    @Inject
+    FirebaseMLKitUtils firebaseMLKitUtils;
+
+    @Inject
     public ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory) {
         this.imageResultDataSourceFactory = imageResultDataSourceFactory;
 
-        mNetworkState = Transformations.switchMap(this.imageResultDataSourceFactory.getPageKeyedImagesDataSourceMutableLiveData(), new Function<PageKeyedImagesDataSource, LiveData<NetworkState>>() {
-            @Override
-            public LiveData<NetworkState> apply(PageKeyedImagesDataSource input) {
-                return input.getNetworkState();
-            }
-        });
+        mNetworkState = Transformations.switchMap(this.imageResultDataSourceFactory.getPageKeyedImagesDataSourceMutableLiveData(), PageKeyedImagesDataSource::getNetworkState);
 
         mInitialLoading = Transformations.switchMap(this.imageResultDataSourceFactory.getPageKeyedImagesDataSourceMutableLiveData(),
-                new Function<PageKeyedImagesDataSource, LiveData<NetworkState>>() {
-                    @Override
-                    public LiveData<NetworkState> apply(PageKeyedImagesDataSource input) {
-                        return input.getInitialLoading();
-                    }
-                });
+                PageKeyedImagesDataSource::getInitialLoading);
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -81,12 +76,14 @@ public class ImagesFragmentViewModel extends ViewModel {
         return mImagesResult;
     }
 
-    public void generateLabelsFromBitmap(final ImageView imageView, SharedPreferences sharedPreferences) {
-        FirebaseMLKitUtils.generateLabelsFromBitmap(imageView, sharedPreferences);
+    public void generateLabelsFromBitmap(final ImageView imageView) {
+        firebaseMLKitUtils.generateLabelsFromBitmap(imageView);
     }
 
     @Override
     protected void onCleared() {
+        imageResultDataSourceFactory.getPageKeyedImagesDataSource().clear();
+
         super.onCleared();
     }
 }

@@ -5,6 +5,7 @@ import android.app.Application;
 import com.upday.shutterdemo.pickyup.PickyUpApp;
 import com.upday.shutterdemo.pickyup.di.module.ActivityBuilder;
 import com.upday.shutterdemo.pickyup.di.module.AppModule;
+import com.upday.shutterdemo.pickyup.di.module.ContextModule;
 import com.upday.shutterdemo.pickyup.di.module.RoomModule;
 import com.upday.shutterdemo.pickyup.di.module.ViewModelModule;
 
@@ -20,7 +21,8 @@ import dagger.android.support.AndroidSupportInjectionModule;
         ActivityBuilder.class,
         RoomModule.class,
         AppModule.class,
-        ViewModelModule.class})
+        ViewModelModule.class,
+        ContextModule.class})
 public interface AppComponent extends AndroidInjector<PickyUpApp> {
 
     @Override
@@ -29,7 +31,7 @@ public interface AppComponent extends AndroidInjector<PickyUpApp> {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        AppComponent.Builder application(Application application);
+        Builder application(Application application);
         AppComponent build();
     }
 }

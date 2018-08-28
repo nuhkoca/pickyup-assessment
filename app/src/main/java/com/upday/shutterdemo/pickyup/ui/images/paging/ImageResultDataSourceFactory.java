@@ -6,45 +6,29 @@ import android.support.annotation.VisibleForTesting;
 
 import com.upday.shutterdemo.pickyup.model.remote.Images;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class ImageResultDataSourceFactory extends DataSource.Factory<Long, Images> {
+
+    private PageKeyedImagesDataSource pageKeyedImagesDataSource;
 
     private MutableLiveData<PageKeyedImagesDataSource> mPageKeyedImagesDataSourceMutableLiveData;
 
-    private static ImageResultDataSourceFactory INSTANCE;
-
-    private static String mQuery;
-    private static String mLanguage;
-    private static boolean mSafeSearch;
-    private static String mSort;
-
-    private ImageResultDataSourceFactory() {
+    @Inject
+    public ImageResultDataSourceFactory(PageKeyedImagesDataSource pageKeyedImagesDataSource) {
+        this.pageKeyedImagesDataSource = pageKeyedImagesDataSource;
         this.mPageKeyedImagesDataSourceMutableLiveData = new MutableLiveData<>();
-    }
-
-    public synchronized static ImageResultDataSourceFactory getInstance(String query, String language, boolean safeSearch, String sort) {
-        if (INSTANCE == null) {
-            INSTANCE = new ImageResultDataSourceFactory();
-        }
-
-        mQuery = query;
-        mLanguage = language;
-        mSafeSearch = safeSearch;
-        mSort = sort;
-
-        return INSTANCE;
     }
 
     @VisibleForTesting
     public ImageResultDataSourceFactory(String query, String language, boolean safeSearch, String sort) {
-        mQuery = query;
-        mLanguage = language;
-        mSafeSearch = safeSearch;
-        mSort = sort;
+
     }
 
     @Override
     public DataSource<Long, Images> create() {
-        PageKeyedImagesDataSource pageKeyedImagesDataSource = new PageKeyedImagesDataSource(mQuery, mLanguage, mSafeSearch, mSort);
         mPageKeyedImagesDataSourceMutableLiveData.postValue(pageKeyedImagesDataSource);
 
         return pageKeyedImagesDataSource;
@@ -52,5 +36,9 @@ public class ImageResultDataSourceFactory extends DataSource.Factory<Long, Image
 
     public MutableLiveData<PageKeyedImagesDataSource> getPageKeyedImagesDataSourceMutableLiveData() {
         return mPageKeyedImagesDataSourceMutableLiveData;
+    }
+
+    public PageKeyedImagesDataSource getPageKeyedImagesDataSource() {
+        return pageKeyedImagesDataSource;
     }
 }

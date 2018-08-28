@@ -29,21 +29,11 @@ public class FavoriteImagesRepository {
     }
 
     public void deleteItem(final String iid) {
-        AppsExecutor.backgroundThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                favoriteImagesDao.deleteItem(iid);
-            }
-        });
+        AppsExecutor.backgroundThread().execute(() -> favoriteImagesDao.deleteItem(iid));
     }
 
     public void deleteAll() {
-        AppsExecutor.backgroundThread().execute(new Runnable() {
-            @Override
-            public void run() {
-                favoriteImagesDao.deleteAll();
-            }
-        });
+        AppsExecutor.backgroundThread().execute(() -> favoriteImagesDao.deleteAll());
     }
 
     private static class insertOrThrowAsync extends AsyncTask<FavoriteImages, Void, Boolean> {

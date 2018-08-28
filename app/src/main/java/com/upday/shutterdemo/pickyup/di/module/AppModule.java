@@ -1,6 +1,8 @@
 package com.upday.shutterdemo.pickyup.di.module;
 
-import android.support.annotation.NonNull;
+import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.FieldNamingPolicy;
@@ -8,26 +10,29 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.upday.shutterdemo.pickyup.BuildConfig;
 import com.upday.shutterdemo.pickyup.api.IShutterstockAPI;
+import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.repository.api.EndpointRepository;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class AppModule {
+
+    @Provides
+    SharedPreferences provideSharedPreferences(Application application){
+        return application.getApplicationContext().getSharedPreferences(Constants.PICKYUP_SHARED_PREF, Context.MODE_PRIVATE);
+    }
 
     @Provides
     @Singleton
@@ -52,14 +57,11 @@ public class AppModule {
         httpClient.connectTimeout(10, TimeUnit.SECONDS);
         httpClient.readTimeout(10, TimeUnit.SECONDS);
 
-        httpClient.addInterceptor(new Interceptor() {
-            @Override
-            public Response intercept(@NonNull Chain chain) throws IOException {
-                Request newRequest = chain.request().newBuilder()
-                        .addHeader("Authorization", "Bearer " + BuildConfig.BEARER_TOKEN)
-                        .build();
-                return chain.proceed(newRequest);
-            }
+        httpClient.addInterceptor(chain -> {
+            Request newRequest = chain.request().newBuilder()
+                    .addHeader("Authorization", "Bearer " + BuildConfig.BEARER_TOKEN)
+                    .build();
+            return chain.proceed(newRequest);
         }).build();
 
         httpClient.addInterceptor(new StethoInterceptor());
@@ -73,7 +75,7 @@ public class AppModule {
     Retrofit provideRetrofit(OkHttpClient okHttpClient, Gson gson){
         return new Retrofit.Builder()
                 .baseUrl(BuildConfig.BASE_URL)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .client(okHttpClient)
                 .build();

@@ -116,32 +116,29 @@ public class WebViewActivity extends DaggerAppCompatActivity implements SwipeRef
         mActivityWebViewBinding.wvMain.clearCache(true);
         mActivityWebViewBinding.wvMain.clearHistory();
 
-        mActivityWebViewBinding.wvMain.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
+        mActivityWebViewBinding.wvMain.setOnTouchListener((v, event) -> {
 
-                if (event.getPointerCount() > 1) {
-                    return true;
-                }
-
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN: {
-                        // save the x
-                        m_downX = event.getX();
-                    }
-                    break;
-
-                    case MotionEvent.ACTION_MOVE:
-                    case MotionEvent.ACTION_CANCEL:
-                    case MotionEvent.ACTION_UP: {
-                        // set x so that it doesn't move
-                        event.setLocation(m_downX, event.getY());
-                    }
-                    break;
-                }
-
-                return false;
+            if (event.getPointerCount() > 1) {
+                return true;
             }
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN: {
+                    // save the x
+                    m_downX = event.getX();
+                }
+                break;
+
+                case MotionEvent.ACTION_MOVE:
+                case MotionEvent.ACTION_CANCEL:
+                case MotionEvent.ACTION_UP: {
+                    // set x so that it doesn't move
+                    event.setLocation(m_downX, event.getY());
+                }
+                break;
+            }
+
+            return false;
         });
     }
 

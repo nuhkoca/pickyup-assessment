@@ -4,7 +4,6 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
 import android.arch.paging.PagedList;
-import android.content.SharedPreferences;
 import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.helper.Constants;
@@ -18,11 +17,14 @@ public class FavoritesFragmentViewModel extends ViewModel {
 
     private LiveData<PagedList<FavoriteImages>> mFavoriteImagesList;
 
-    private FavoriteImagesRepository mFavoriteImagesRepository;
+    private FavoriteImagesRepository favoriteImagesRepository;
+
+    @Inject
+    FirebaseMLKitUtils firebaseMLKitUtils;
 
     @Inject
     FavoritesFragmentViewModel(FavoriteImagesRepository favoriteImagesRepository) {
-        this.mFavoriteImagesRepository = favoriteImagesRepository;
+        this.favoriteImagesRepository = favoriteImagesRepository;
 
         PagedList.Config config = new PagedList.Config.Builder()
                 .setEnablePlaceholders(true)
@@ -42,13 +44,13 @@ public class FavoritesFragmentViewModel extends ViewModel {
                 .setPrefetchDistance(Constants.PER_PAGE_SIZE)
                 .setPageSize(Constants.PER_PAGE_SIZE).build();
 
-        mFavoriteImagesList = new LivePagedListBuilder<>(mFavoriteImagesRepository.getAll(), config).build();
+        mFavoriteImagesList = new LivePagedListBuilder<>(favoriteImagesRepository.getAll(), config).build();
 
         return mFavoriteImagesList;
     }
 
-    public void generateLabelsFromBitmap(final ImageView imageView, SharedPreferences sharedPreferences) {
-        FirebaseMLKitUtils.generateLabelsFromBitmap(imageView, sharedPreferences);
+    public void generateLabelsFromBitmap(final ImageView imageView) {
+        firebaseMLKitUtils.generateLabelsFromBitmap(imageView);
     }
 
     @Override

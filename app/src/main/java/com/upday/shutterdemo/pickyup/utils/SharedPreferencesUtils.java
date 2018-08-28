@@ -1,77 +1,51 @@
 package com.upday.shutterdemo.pickyup.utils;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.TypedValue;
 
-import com.upday.shutterdemo.pickyup.PickyUpApp;
-import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 
-import timber.log.Timber;
-
-import static android.content.Context.MODE_PRIVATE;
+import javax.inject.Inject;
 
 public class SharedPreferencesUtils {
 
-    private static SharedPreferences mSharedPref;
+    private SharedPreferences sharedPreferences;
 
-    private static SharedPreferencesUtils INSTANCE;
-
-    public static synchronized SharedPreferencesUtils getInstance() {
-        mSharedPref = PickyUpApp.getInstance().getSharedPreferences(Constants.PICKYUP_SHARED_PREF, MODE_PRIVATE);
-
-        if (INSTANCE == null) {
-            INSTANCE = new SharedPreferencesUtils();
-        }
-
-        return INSTANCE;
+    @Inject
+    public SharedPreferencesUtils(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
     }
 
-    public String getQuery() {
-        return mSharedPref.getString(Constants.QUERY_PREF_KEY, Constants.DEFAULT_QUERY_VALUE);
+    public void putIntData(String key, int val) {
+        sharedPreferences.edit().putInt(key, val).apply();
     }
 
-    public void saveQuery(String query) {
-        SharedPreferences.Editor editor = mSharedPref.edit();
-
-        editor.putString(Constants.QUERY_PREF_KEY, query);
-
-        Timber.d("Query is %s", query);
-
-        editor.apply();
+    public int getIntData(String key, int defVal) {
+        return sharedPreferences.getInt(key, defVal);
     }
 
-    public synchronized int getRunCount() {
-        return mSharedPref.getInt(Constants.RUN_COUNT_KEY, 0);
+    public void putStringData(String key, String val) {
+        sharedPreferences.edit().putString(key, val).apply();
     }
 
-    public synchronized void setRunCount() {
-        SharedPreferences.Editor editor = mSharedPref.edit();
+    public String getStringData(String key, String defVal) {
+        return sharedPreferences.getString(key, defVal);
+    }
 
-        int count = getRunCount() + 1;
+    public void putBooleanData(String key, boolean val) {
+        sharedPreferences.edit().putBoolean(key, val).apply();
+    }
+
+    public boolean getBooleanData(String key, boolean defVal) {
+        return sharedPreferences.getBoolean(key, defVal);
+    }
+
+    public synchronized void setRunCount(String key) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        int count = getIntData(key, 0) + 1;
 
         editor.putInt(Constants.RUN_COUNT_KEY, count);
 
         editor.apply();
-    }
-
-    public static String loadLanguagePreference(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getString(context.getString(R.string.image_language_pref_key),
-                context.getString(R.string.en_lang_value));
-    }
-
-    public static String loadSortingPreference(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getString(context.getString(R.string.image_sorting_pref_key),
-                context.getString(R.string.popular_value));
-    }
-
-    public static boolean loadSafeSearchPreference(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getBoolean(context.getString(R.string.image_safe_search_pref_key),
-                true);
-    }
-
-    public static String loadConfidencePreference(Context context, SharedPreferences sharedPreferences) {
-        return sharedPreferences.getString(context.getString(R.string.confidence_key), context.getString(R.string.confidence_0_7_value));
     }
 }

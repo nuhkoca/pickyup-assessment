@@ -45,6 +45,12 @@ android {
         unitTests.returnDefaultValues = true
         unitTests.includeAndroidResources = true
     }
+
+    compileOptions {
+        incremental true
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
 }
 
 dependencies {
@@ -79,14 +85,14 @@ dependencies {
     annotationProcessor "com.google.dagger:dagger-compiler:$rootProject.ext.daggerVersion"
 
     //Retrofit
-    implementation "com.squareup.retrofit2:adapter-rxjava:$rootProject.ext.rxJavaVersion"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.rxJava2AdapterVersion"
     implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.rxJavaVersion"
     implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.rxJavaVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okHttpVersion"
 
     //RxJava
-    implementation "io.reactivex:rxjava:$rootProject.ext.rxJavaLibVersion"
-    implementation "io.reactivex:rxandroid:$rootProject.ext.rxAndroidVersion"
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJavaLibVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroidVersion"
 
     //Square Libs
     implementation "com.jakewharton.timber:timber:$rootProject.ext.timberVersion"

@@ -9,40 +9,40 @@ import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.remote.Images;
 import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
 import com.upday.shutterdemo.pickyup.repository.api.EndpointRepository;
+import com.upday.shutterdemo.pickyup.utils.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
-import rx.schedulers.Schedulers;
-import timber.log.Timber;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
+@Singleton
 public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images> {
 
-    @Inject
-    EndpointRepository endpointRepository;
+    private EndpointRepository endpointRepository;
+
+    private CompositeDisposable compositeDisposable;
 
     private MutableLiveData<NetworkState> mNetworkState;
     private MutableLiveData<NetworkState> mInitialLoading;
 
-    private String mQuery;
-    private String mLanguage;
-    private boolean mSafeSearch;
-    private String mSort;
+    @Inject
+    SharedPreferencesUtils sharedPreferencesUtils;
 
-    PageKeyedImagesDataSource(String query, String language, boolean safeSearch, String sort) {
+    @Inject
+    PageKeyedImagesDataSource(EndpointRepository endpointRepository) {
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();
 
-        this.mQuery = query;
-        this.mLanguage = language;
-        this.mSafeSearch = safeSearch;
-        this.mSort = sort;
+        this.endpointRepository = endpointRepository;
+
+        compositeDisposable = new CompositeDisposable();
     }
 
     public MutableLiveData<NetworkState> getNetworkState() {
@@ -53,6 +53,22 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
         return mInitialLoading;
     }
 
+    private String getQuery() {
+        return sharedPreferencesUtils.getStringData(Constants.QUERY_PREF_KEY, Constants.DEFAULT_QUERY_VALUE);
+    }
+
+    private String getLanguage() {
+        return sharedPreferencesUtils.getStringData(Constants.LANG_PREF_KEY, Constants.DEFAULT_LANG_VALUE);
+    }
+
+    private boolean getSafeSearch() {
+        return sharedPreferencesUtils.getBooleanData(Constants.SAFE_SEARCH_PREF_KEY, Constants.DEFAULT_SAFE_SEARCH_VALUE);
+    }
+
+    private String getSort() {
+        return sharedPreferencesUtils.getStringData(Constants.SORT_PREF_KEY, Constants.DEFAULT_SORT_VALUE);
+    }
+
     @Override
     public void loadInitial(@NonNull LoadInitialParams<Long> params, @NonNull final LoadInitialCallback<Long, Images> callback) {
         final List<Images> imagesList = new ArrayList<>();
@@ -60,47 +76,32 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
         mNetworkState.postValue(NetworkState.LOADING);
         mInitialLoading.postValue(NetworkState.LOADING);
 
-        endpointRepository.getImages(mQuery, mLanguage, mSafeSearch, mSort, 1, params.requestedLoadSize)
+        Disposable imageDisposable = endpointRepository.getImages(getQuery(), getLanguage(), getSafeSearch(), getSort(), 1, params.requestedLoadSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(Constants.DEFAULT_RETRY_COUNT)
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ImagesWrapper>>() {
-                    @Override
-                    public Observable<? extends ImagesWrapper> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<ImagesWrapper>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(images -> onImagesFetched(images, imagesList, callback), this::onError);
 
-                    }
+        compositeDisposable.add(imageDisposable);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
-                        mInitialLoading.postValue(new NetworkState(NetworkState.Status.FAILED));
+    private void onError(Throwable throwable) {
+        mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
+    }
 
-                        Timber.e(e);
-                    }
+    private void onImagesFetched(ImagesWrapper imagesWrapper, List<Images> imagesList, LoadInitialCallback<Long, Images> callback) {
+        if (imagesWrapper.getTotalCount() > 0
+                && imagesWrapper.getData() != null
+                && imagesWrapper.getData().size() > 0) {
 
-                    @Override
-                    public void onNext(ImagesWrapper imagesWrapper) {
-                        if (imagesWrapper.getTotalCount() > 0
-                                && imagesWrapper.getData() != null
-                                && imagesWrapper.getData().size() > 0) {
+            imagesList.addAll(imagesWrapper.getData());
 
-                            imagesList.addAll(imagesWrapper.getData());
-                            callback.onResult(imagesList, null, 2L);
+            callback.onResult(imagesList, null, 2L);
 
-                            mNetworkState.postValue(NetworkState.LOADED);
-                            mInitialLoading.postValue(NetworkState.LOADED);
-                        } else {
-                            mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
-                            mInitialLoading.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
-                        }
-                    }
-                });
+            mNetworkState.postValue(NetworkState.LOADED);
+        } else {
+            mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
+        }
     }
 
     @Override
@@ -114,46 +115,37 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
 
         mNetworkState.postValue(NetworkState.LOADING);
 
-        endpointRepository.getImages(mQuery, mLanguage, mSafeSearch, mSort, params.key, params.requestedLoadSize)
+        Disposable imagesDisposable = endpointRepository.getImages(getQuery(), getLanguage(), getSafeSearch(), getSort(), params.key, params.requestedLoadSize)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry(Constants.DEFAULT_RETRY_COUNT)
-                .onErrorResumeNext(new Func1<Throwable, Observable<? extends ImagesWrapper>>() {
-                    @Override
-                    public Observable<? extends ImagesWrapper> call(Throwable throwable) {
-                        return Observable.error(throwable);
-                    }
-                })
-                .subscribe(new Subscriber<ImagesWrapper>() {
-                    @Override
-                    public void onCompleted() {
+                .subscribe(images -> onPaginationImagesFetched(images, imagesList, callback, params), this::onPaginationError);
 
-                    }
+        compositeDisposable.add(imagesDisposable);
+    }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
+    private void onPaginationError(Throwable throwable) {
+        mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
+    }
 
-                        Timber.e(e);
-                    }
+    @SuppressWarnings("ConstantConditions")
+    private void onPaginationImagesFetched(ImagesWrapper imagesWrapper, List<Images> imagesList, LoadCallback<Long, Images> callback, LoadParams<Long> params) {
+        if (imagesWrapper.getTotalCount() > 0
+                && imagesWrapper.getData() != null
+                && imagesWrapper.getData().size() > 0) {
 
-                    @SuppressWarnings("ConstantConditions")
-                    @Override
-                    public void onNext(ImagesWrapper imagesWrapper) {
-                        if (imagesWrapper.getTotalCount() > 0
-                                && imagesWrapper.getData() != null
-                                && imagesWrapper.getData().size() > 0) {
+            imagesList.addAll(imagesWrapper.getData());
 
-                            imagesList.addAll(imagesWrapper.getData());
+            long nextKey = (params.key == imagesWrapper.getTotalCount()) ? null : params.key + 1;
+            callback.onResult(imagesList, nextKey);
 
-                            long nextKey = (params.key == imagesWrapper.getTotalCount()) ? null : params.key + 1;
-                            callback.onResult(imagesList, nextKey);
+            mNetworkState.postValue(NetworkState.LOADED);
+        } else {
+            mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
+        }
+    }
 
-                            mNetworkState.postValue(NetworkState.LOADED);
-                        } else {
-                            mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
-                        }
-                    }
-                });
+    public void clear() {
+        compositeDisposable.clear();
     }
 }

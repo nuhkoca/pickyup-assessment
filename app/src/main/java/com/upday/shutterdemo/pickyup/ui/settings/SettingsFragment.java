@@ -44,17 +44,14 @@ public class SettingsFragment extends PreferenceFragmentCompat implements Shared
         super.onCreate(savedInstanceState);
 
         Preference libsPref = findPreference(getString(R.string.third_party_key));
-        libsPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                new LibsBuilder()
-                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
-                        .withActivityTitle(getString(R.string.third_party_header))
-                        .withAutoDetect(true)
-                        .start(Objects.requireNonNull(getActivity()));
+        libsPref.setOnPreferenceClickListener(preference -> {
+            new LibsBuilder()
+                    .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                    .withActivityTitle(getString(R.string.third_party_header))
+                    .withAutoDetect(true)
+                    .start(Objects.requireNonNull(getActivity()));
 
-                return false;
-            }
+            return false;
         });
     }
 

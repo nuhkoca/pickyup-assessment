@@ -2,9 +2,8 @@ package com.upday.shutterdemo.pickyup.ui.images;
 
 import android.app.ActivityOptions;
 import android.app.SearchManager;
-import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
-import android.arch.paging.PagedList;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -29,8 +28,6 @@ import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
-import com.upday.shutterdemo.pickyup.callback.IDatabaseProgressListener;
-import com.upday.shutterdemo.pickyup.callback.IMenuItemIdListener;
 import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.callback.IRetryListener;
 import com.upday.shutterdemo.pickyup.databinding.CustomImagesLayoutBinding;
@@ -41,7 +38,6 @@ import com.upday.shutterdemo.pickyup.model.remote.Images;
 import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.test.SimpleIdlingResource;
 import com.upday.shutterdemo.pickyup.ui.WebViewActivity;
-import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFactory;
 import com.upday.shutterdemo.pickyup.utils.ColumnUtils;
 import com.upday.shutterdemo.pickyup.utils.ConnectionUtils;
 import com.upday.shutterdemo.pickyup.utils.PopupMenuUtils;
@@ -71,12 +67,17 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     private boolean sIsRotatedAndSearchViewStated = false;
     private String sSearchString;
 
-    private String mLanguage;
-    private boolean mSafeSearch;
-    private String mSorting;
-
     @Inject
     FavoriteImagesRepository favoriteImagesRepository;
+
+    @Inject
+    ViewModelProvider.Factory viewModelFactory;
+
+    @Inject
+    SharedPreferencesUtils sharedPreferencesUtils;
+
+    @Inject
+    ConnectionUtils connectionUtils;
 
     @Nullable
     private SimpleIdlingResource mIdlingResource;
@@ -151,95 +152,72 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        if (getContext() != null) {
-            mImagesFragmentViewModel = ViewModelProviders.of(this,
-                    new ImagesFragmentViewModelFactory(
-                            ImageResultDataSourceFactory.getInstance(
-                                    SharedPreferencesUtils.getInstance().getQuery(),
-                                    SharedPreferencesUtils.loadLanguagePreference(getContext(), mSharedPreferences),
-                                    SharedPreferencesUtils.loadSafeSearchPreference(getContext(), mSharedPreferences),
-                                    SharedPreferencesUtils.loadSortingPreference(getContext(), mSharedPreferences)
-                            )
-                    )).get(ImagesFragmentViewModel.class);
+        mImagesFragmentViewModel = ViewModelProviders.of(this, viewModelFactory).get(ImagesFragmentViewModel.class);
 
-            mLanguage = SharedPreferencesUtils.loadLanguagePreference(getContext(), mSharedPreferences);
-            mSafeSearch = SharedPreferencesUtils.loadSafeSearchPreference(getContext(), mSharedPreferences);
-            mSorting = SharedPreferencesUtils.loadSortingPreference(getContext(), mSharedPreferences);
-        }
+        mImagesFragmentViewModel.getImagesResult().observe(this, images -> {
+            if (images != null) {
+                mImagesAdapter.submitList(images);
 
-        mImagesFragmentViewModel.getImagesResult().observe(this, new Observer<PagedList<Images>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<Images> images) {
-                if (images != null) {
-                    mImagesAdapter.submitList(images);
+                getIdlingResource();
+
+                if (mIdlingResource != null) {
+                    mIdlingResource.setIdleState(true);
+                }
+            }
+        });
+
+        mImagesFragmentViewModel.getNetworkState().observe(this, networkState -> {
+            if (networkState != null) {
+                mImagesAdapter.setNetworkState(networkState);
+            }
+        });
+
+        mImagesFragmentViewModel.getInitialLoading().observe(this, networkState -> {
+            if (networkState != null) {
+                if (networkState.getStatus() == NetworkState.Status.SUCCESS) {
+                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
+                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
+                    mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
 
                     getIdlingResource();
 
                     if (mIdlingResource != null) {
                         mIdlingResource.setIdleState(true);
                     }
-                }
-            }
-        });
 
-        mImagesFragmentViewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
-            @Override
-            public void onChanged(@Nullable NetworkState networkState) {
-                if (networkState != null) {
-                    mImagesAdapter.setNetworkState(networkState);
-                }
-            }
-        });
+                } else if (networkState.getStatus() == NetworkState.Status.FAILED) {
+                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
+                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
+                    mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.VISIBLE);
+                    mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.response_error_text));
 
-        mImagesFragmentViewModel.getInitialLoading().observe(this, new Observer<NetworkState>() {
-            @Override
-            public void onChanged(@Nullable NetworkState networkState) {
-                if (networkState != null) {
-                    if (networkState.getStatus() == NetworkState.Status.SUCCESS) {
-                        mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
-                        mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
-                        mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
+                    getIdlingResource();
 
-                        getIdlingResource();
+                    if (mIdlingResource != null) {
+                        mIdlingResource.setIdleState(false);
+                    }
 
-                        if (mIdlingResource != null) {
-                            mIdlingResource.setIdleState(true);
-                        }
+                } else if (networkState.getStatus() == NetworkState.Status.NO_ITEM) {
+                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
+                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
+                    mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.no_result_error_text));
+                    mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
 
-                    } else if (networkState.getStatus() == NetworkState.Status.FAILED) {
-                        mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
-                        mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
-                        mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.VISIBLE);
-                        mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.response_error_text));
+                    getIdlingResource();
 
-                        getIdlingResource();
+                    if (mIdlingResource != null) {
+                        mIdlingResource.setIdleState(false);
+                    }
 
-                        if (mIdlingResource != null) {
-                            mIdlingResource.setIdleState(false);
-                        }
+                } else {
+                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.VISIBLE);
+                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
+                    mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
 
-                    } else if (networkState.getStatus() == NetworkState.Status.NO_ITEM) {
-                        mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
-                        mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
-                        mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.no_result_error_text));
-                        mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
+                    getIdlingResource();
 
-                        getIdlingResource();
-
-                        if (mIdlingResource != null) {
-                            mIdlingResource.setIdleState(false);
-                        }
-
-                    } else {
-                        mCustomImagesLayoutBinding.pbImages.setVisibility(View.VISIBLE);
-                        mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
-                        mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
-
-                        getIdlingResource();
-
-                        if (mIdlingResource != null) {
-                            mIdlingResource.setIdleState(false);
-                        }
+                    if (mIdlingResource != null) {
+                        mIdlingResource.setIdleState(false);
                     }
                 }
             }
@@ -277,12 +255,7 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
         }
 
         if (!TextUtils.isEmpty(sSearchString)) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    mSearchView.setQuery(sSearchString, false);
-                }
-            });
+            new Handler().post(() -> mSearchView.setQuery(sSearchString, false));
 
             mSearchView.setIconified(false);
             mSearchView.setFocusable(true);
@@ -296,10 +269,10 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
             public boolean onQueryTextSubmit(String query) {
                 query = query.toLowerCase();
 
-                SharedPreferencesUtils.getInstance().saveQuery(query);
-                query = SharedPreferencesUtils.getInstance().getQuery();
+                sharedPreferencesUtils.putStringData(Constants.QUERY_PREF_KEY, query);
+                query = sharedPreferencesUtils.getStringData(Constants.QUERY_PREF_KEY, Constants.DEFAULT_QUERY_VALUE);
 
-                ImageResultDataSourceFactory.getInstance(query, mLanguage, mSafeSearch, mSorting);
+                //ImageResultDataSourceFactory.getInstance(query, mLanguage, mSafeSearch, mSorting);
 
                 refreshImagesResult();
 
@@ -327,49 +300,44 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.image_language_pref_key))) {
-            mLanguage = SharedPreferencesUtils.loadLanguagePreference(Objects.requireNonNull(getActivity()), sharedPreferences);
+            sharedPreferencesUtils.putStringData(getString(R.string.image_language_pref_key), getString(R.string.en_lang_value));
         }
         if (key.equals(getString(R.string.image_sorting_pref_key))) {
-            mSorting = SharedPreferencesUtils.loadSortingPreference(Objects.requireNonNull(getActivity()), sharedPreferences);
+            sharedPreferencesUtils.putStringData(getString(R.string.image_sorting_pref_key), getString(R.string.popular_value));
         }
         if (key.equals(getString(R.string.image_safe_search_pref_key))) {
-            mSafeSearch = SharedPreferencesUtils.loadSafeSearchPreference(Objects.requireNonNull(getContext()), sharedPreferences);
+            sharedPreferencesUtils.putBooleanData(getString(R.string.image_language_pref_key), true);
         }
 
         if (!key.equals(getString(R.string.confidence_key))) {
+            sharedPreferencesUtils.putStringData(getString(R.string.confidence_key), getString(R.string.confidence_0_7_value));
+
             behaveAccordingToFirstRun();
         }
     }
 
     private void behaveAccordingToFirstRun() {
-        if (SharedPreferencesUtils.getInstance().getRunCount() >= Constants.VIEW_PAGER_OFFSET_LIMIT) {
-            String query = SharedPreferencesUtils.getInstance().getQuery();
+        int runCount = sharedPreferencesUtils.getIntData(Constants.RUN_COUNT_KEY, 0);
 
-            ImageResultDataSourceFactory.getInstance(query,
-                    mLanguage, mSafeSearch, mSorting
-            );
-
+        if (runCount >= Constants.VIEW_PAGER_OFFSET_LIMIT) {
             refreshImagesResult();
         } else {
-            SharedPreferencesUtils.getInstance().setRunCount();
+            sharedPreferencesUtils.setRunCount(Constants.RUN_COUNT_KEY);
         }
     }
 
     private synchronized void refreshImagesResult() {
         setupRV();
 
-        mImagesFragmentViewModel.refreshImagesResult().observe(this, new Observer<PagedList<Images>>() {
-            @Override
-            public void onChanged(@Nullable PagedList<Images> images) {
-                if (images != null) {
-                    mImagesAdapter.submitList(null);
-                    mImagesAdapter.submitList(images);
+        mImagesFragmentViewModel.refreshImagesResult().observe(this, images -> {
+            if (images != null) {
+                mImagesAdapter.submitList(null);
+                mImagesAdapter.submitList(images);
 
-                    getIdlingResource();
+                getIdlingResource();
 
-                    if (mIdlingResource != null) {
-                        mIdlingResource.setIdleState(true);
-                    }
+                if (mIdlingResource != null) {
+                    mIdlingResource.setIdleState(true);
                 }
             }
         });
@@ -388,7 +356,7 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
 
     @Override
     public void onRefresh() {
-        boolean isConnection = ConnectionUtils.sniff();
+        boolean isConnection = connectionUtils.sniff();
 
         if (isConnection) {
             refreshImagesResult();
@@ -405,33 +373,30 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
         popupMenu.getMenu().findItem(R.id.remove_from_fav).setVisible(false);
 
         PopupMenuUtils.Builder builder = new PopupMenuUtils.Builder()
-                .listener(new IMenuItemIdListener() {
-                    @Override
-                    public void onItemIdReceived(int itemId) {
-                        switch (itemId) {
-                            case R.id.add_to_fav:
-                                addToDb(images);
+                .listener(itemId -> {
+                    switch (itemId) {
+                        case R.id.add_to_fav:
+                            addToDb(images);
 
-                                break;
+                            break;
 
-                            case R.id.open_in_browser:
-                                Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
-                                browserIntent.putExtra(Constants.WEB_URL_KEY,
-                                        images.getAssets().getHugeThumb().getUrl());
+                        case R.id.open_in_browser:
+                            Intent browserIntent = new Intent(getActivity(), WebViewActivity.class);
+                            browserIntent.putExtra(Constants.WEB_URL_KEY,
+                                    images.getAssets().getHugeThumb().getUrl());
 
-                                startActivity(browserIntent,
-                                        ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
+                            startActivity(browserIntent,
+                                    ActivityOptions.makeSceneTransitionAnimation(getActivity()).toBundle());
 
-                                break;
+                            break;
 
-                            case R.id.label_image:
-                                mImagesFragmentViewModel.generateLabelsFromBitmap(imageView, mSharedPreferences);
+                        case R.id.label_image:
+                            mImagesFragmentViewModel.generateLabelsFromBitmap(imageView);
 
-                                break;
+                            break;
 
-                            default:
-                                break;
-                        }
+                        default:
+                            break;
                     }
                 });
 
@@ -457,24 +422,21 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
                 width
         );
 
-        favoriteImagesRepository.insertOrThrow(favoriteImages, iid, new IDatabaseProgressListener() {
-            @Override
-            public void onItemRetrieved(boolean result) {
-                if (result) {
-                    new SnackbarUtils.Builder()
-                            .setView(mCustomImagesLayoutBinding.clImages)
-                            .setMessage(String.format(getString(R.string.constraint_exception_text), description))
-                            .setLength(SnackbarUtils.Length.LONG)
-                            .show(getString(R.string.dismiss_action_text))
-                            .build();
-                } else {
-                    new SnackbarUtils.Builder()
-                            .setView(mCustomImagesLayoutBinding.clImages)
-                            .setMessage(String.format(getString(R.string.database_adding_info_text), description))
-                            .setLength(SnackbarUtils.Length.LONG)
-                            .show(getString(R.string.dismiss_action_text))
-                            .build();
-                }
+        favoriteImagesRepository.insertOrThrow(favoriteImages, iid, result -> {
+            if (result) {
+                new SnackbarUtils.Builder()
+                        .setView(mCustomImagesLayoutBinding.clImages)
+                        .setMessage(String.format(getString(R.string.constraint_exception_text), description))
+                        .setLength(SnackbarUtils.Length.LONG)
+                        .show(getString(R.string.dismiss_action_text))
+                        .build();
+            } else {
+                new SnackbarUtils.Builder()
+                        .setView(mCustomImagesLayoutBinding.clImages)
+                        .setMessage(String.format(getString(R.string.database_adding_info_text), description))
+                        .setLength(SnackbarUtils.Length.LONG)
+                        .show(getString(R.string.dismiss_action_text))
+                        .build();
             }
         });
     }

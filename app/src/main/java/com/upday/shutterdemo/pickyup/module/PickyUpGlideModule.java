@@ -28,6 +28,7 @@ import static com.bumptech.glide.load.DecodeFormat.PREFER_ARGB_8888;
 
 @GlideModule
 public class PickyUpGlideModule extends AppGlideModule {
+
     @Override
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         OkHttpClient client = new OkHttpClient.Builder()
