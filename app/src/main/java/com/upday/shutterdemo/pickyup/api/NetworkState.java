@@ -1,12 +1,6 @@
 package com.upday.shutterdemo.pickyup.api;
 
 public class NetworkState {
-    public enum Status {
-        RUNNING,
-        SUCCESS,
-        FAILED,
-        NO_ITEM
-    }
 
     private final Status status;
 

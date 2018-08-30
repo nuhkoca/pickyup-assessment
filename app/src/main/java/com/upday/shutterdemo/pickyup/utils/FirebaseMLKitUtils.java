@@ -17,7 +17,9 @@ import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetectorOptions;
 import com.upday.shutterdemo.pickyup.R;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class FirebaseMLKitUtils {
 
     private SharedPreferences sharedPreferences;

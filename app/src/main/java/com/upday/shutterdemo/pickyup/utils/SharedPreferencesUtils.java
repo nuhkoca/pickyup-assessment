@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class SharedPreferencesUtils {
 
     private SharedPreferences sharedPreferences;

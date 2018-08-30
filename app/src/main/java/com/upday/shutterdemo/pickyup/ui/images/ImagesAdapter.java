@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.android.databinding.library.baseAdapters.BR;
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
+import com.upday.shutterdemo.pickyup.api.Status;
 import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.callback.IRetryListener;
 import com.upday.shutterdemo.pickyup.databinding.ImagesItemLayoutBinding;
@@ -143,12 +144,12 @@ public class ImagesAdapter extends PagedListAdapter<Images, RecyclerView.ViewHol
         void bindTo(NetworkState networkState) {
             networkStateItemBinding.setVariable(BR.retryListener, mIRetryListener);
 
-            if (networkState != null && networkState.getStatus() == NetworkState.Status.RUNNING) {
+            if (networkState != null && networkState.getStatus() == Status.RUNNING) {
                 networkStateItemBinding.clNetwork.setVisibility(View.VISIBLE);
                 networkStateItemBinding.pbNetwork.setVisibility(View.VISIBLE);
                 networkStateItemBinding.tvNetworkStateErrButton.setVisibility(View.GONE);
                 networkStateItemBinding.tvNetworkStateErrText.setVisibility(View.GONE);
-            } else if (networkState != null && networkState.getStatus() == NetworkState.Status.FAILED) {
+            } else if (networkState != null && networkState.getStatus() == Status.FAILED) {
                 networkStateItemBinding.clNetwork.setVisibility(View.VISIBLE);
                 networkStateItemBinding.pbNetwork.setVisibility(View.GONE);
                 networkStateItemBinding.tvNetworkStateErrButton.setVisibility(View.VISIBLE);

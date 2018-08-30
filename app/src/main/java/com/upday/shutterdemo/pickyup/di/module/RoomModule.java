@@ -43,10 +43,4 @@ public class RoomModule {
     FavoriteImagesDao provideFavoriteImagesDao(PickyUpDatabase pickyUpDatabase){
         return pickyUpDatabase.favoriteImagesDao();
     }
-
-    @Provides
-    @Singleton
-    FavoriteImagesRepository provideFavoriteImagesRepository(FavoriteImagesDao favoriteImagesDao){
-        return new FavoriteImagesRepository(favoriteImagesDao);
-    }
 }

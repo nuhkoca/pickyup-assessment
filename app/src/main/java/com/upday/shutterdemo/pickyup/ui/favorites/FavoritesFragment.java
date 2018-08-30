@@ -58,6 +58,9 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
     @Inject
     ViewModelProvider.Factory viewModelFactory;
 
+    @Inject
+    ColumnUtils columnUtils;
+
     private FavoritesAdapter mFavoritesAdapter;
 
     private PagedList<FavoriteImages> mFavoriteImages;
@@ -91,7 +94,7 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
     }
 
     private void setupRV() {
-        int columnCount = ColumnUtils.getOptimalNumberOfColumn(getContext());
+        int columnCount = columnUtils.getOptimalNumberOfColumn(getActivity());
         final StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(columnCount, 1);
 
         mCustomImagesLayoutBinding.rvImages.setLayoutManager(staggeredGridLayoutManager);

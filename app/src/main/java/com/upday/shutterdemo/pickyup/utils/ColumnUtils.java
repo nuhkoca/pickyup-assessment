@@ -6,12 +6,23 @@ import android.util.DisplayMetrics;
 
 import com.upday.shutterdemo.pickyup.helper.Constants;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class ColumnUtils {
-    public static int getOptimalNumberOfColumn(Context context) {
+
+    private Context context;
+
+    @Inject
+    public ColumnUtils(Context context) {
+        this.context = context;
+    }
+
+    public int getOptimalNumberOfColumn(Activity activity) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
-        if (context != null) {
-            ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        }
+
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
         int widthDivider = Constants.DEFAULT_COLUMN_WIDTH;
 

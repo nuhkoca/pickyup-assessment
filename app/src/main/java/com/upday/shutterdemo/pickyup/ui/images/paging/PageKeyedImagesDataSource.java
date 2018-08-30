@@ -2,9 +2,12 @@ package com.upday.shutterdemo.pickyup.ui.images.paging;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PageKeyedDataSource;
+import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
+import com.upday.shutterdemo.pickyup.api.Status;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.remote.Images;
 import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
@@ -36,11 +39,16 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
     SharedPreferencesUtils sharedPreferencesUtils;
 
     @Inject
-    PageKeyedImagesDataSource(EndpointRepository endpointRepository) {
+    Context context;
+
+    @Inject
+    PageKeyedImagesDataSource(EndpointRepository endpointRepository, Context context) {
+        this.endpointRepository = endpointRepository;
+
+        this.context = context;
+
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();
-
-        this.endpointRepository = endpointRepository;
 
         compositeDisposable = new CompositeDisposable();
     }
@@ -58,15 +66,17 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
     }
 
     private String getLanguage() {
-        return sharedPreferencesUtils.getStringData(Constants.LANG_PREF_KEY, Constants.DEFAULT_LANG_VALUE);
+        return sharedPreferencesUtils.getStringData(context.getString(R.string.image_language_pref_key),
+                context.getString(R.string.en_lang_value));
     }
 
     private boolean getSafeSearch() {
-        return sharedPreferencesUtils.getBooleanData(Constants.SAFE_SEARCH_PREF_KEY, Constants.DEFAULT_SAFE_SEARCH_VALUE);
+        return sharedPreferencesUtils.getBooleanData(context.getString(R.string.image_safe_search_pref_key), true);
     }
 
     private String getSort() {
-        return sharedPreferencesUtils.getStringData(Constants.SORT_PREF_KEY, Constants.DEFAULT_SORT_VALUE);
+        return sharedPreferencesUtils.getStringData(context.getString(R.string.image_sorting_pref_key),
+                context.getString(R.string.popular_value));
     }
 
     @Override
@@ -86,7 +96,8 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
     }
 
     private void onError(Throwable throwable) {
-        mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
+        mInitialLoading.postValue(new NetworkState(Status.FAILED));
+        mNetworkState.postValue(new NetworkState(Status.FAILED));
     }
 
     private void onImagesFetched(ImagesWrapper imagesWrapper, List<Images> imagesList, LoadInitialCallback<Long, Images> callback) {
@@ -100,7 +111,7 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
 
             mNetworkState.postValue(NetworkState.LOADED);
         } else {
-            mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
+            mNetworkState.postValue(new NetworkState(Status.NO_ITEM));
         }
     }
 
@@ -125,7 +136,7 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
     }
 
     private void onPaginationError(Throwable throwable) {
-        mNetworkState.postValue(new NetworkState(NetworkState.Status.FAILED));
+        mNetworkState.postValue(new NetworkState(Status.FAILED));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -141,7 +152,7 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
 
             mNetworkState.postValue(NetworkState.LOADED);
         } else {
-            mNetworkState.postValue(new NetworkState(NetworkState.Status.NO_ITEM));
+            mNetworkState.postValue(new NetworkState(Status.NO_ITEM));
         }
     }
 

@@ -29,8 +29,12 @@ public class ImagesFragmentViewModel extends ViewModel {
     FirebaseMLKitUtils firebaseMLKitUtils;
 
     @Inject
-    public ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory) {
+    AppsExecutor appsExecutor;
+
+    @Inject
+    public ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory, AppsExecutor appsExecutor) {
         this.imageResultDataSourceFactory = imageResultDataSourceFactory;
+        this.appsExecutor = appsExecutor;
 
         mNetworkState = Transformations.switchMap(this.imageResultDataSourceFactory.getPageKeyedImagesDataSourceMutableLiveData(), PageKeyedImagesDataSource::getNetworkState);
 
@@ -45,7 +49,7 @@ public class ImagesFragmentViewModel extends ViewModel {
                 .build();
 
         mImagesResult = new LivePagedListBuilder<>(this.imageResultDataSourceFactory, config)
-                .setFetchExecutor(AppsExecutor.networkIO())
+                .setFetchExecutor(appsExecutor.networkIO())
                 .build();
     }
 
@@ -70,7 +74,7 @@ public class ImagesFragmentViewModel extends ViewModel {
                 .build();
 
         mImagesResult = new LivePagedListBuilder<>(this.imageResultDataSourceFactory, config)
-                .setFetchExecutor(AppsExecutor.networkIO())
+                .setFetchExecutor(appsExecutor.networkIO())
                 .build();
 
         return mImagesResult;

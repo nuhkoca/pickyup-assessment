@@ -8,9 +8,11 @@ import com.upday.shutterdemo.pickyup.BuildConfig;
 import com.upday.shutterdemo.pickyup.R;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import timber.log.Timber;
 
+@Singleton
 public class AppUtils {
 
     private Context context;

@@ -1,40 +1,31 @@
 package com.upday.shutterdemo.pickyup.helper;
 
-import android.os.Handler;
-import android.os.Looper;
-import android.support.annotation.NonNull;
-
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
+@Singleton
 public class AppsExecutor {
-    private final static Executor networkIO = Executors.newFixedThreadPool(Constants.EXECUTOR_THREAD_POOL_OFFSET);
+    private final Executor networkIO;
+    private final Executor diskIO;
 
-    private final static Executor mainThread = new MainThreadExecutor();
-
-    private final static Executor backgroundThread = Executors.newSingleThreadExecutor();
-
-    private AppsExecutor() {
+    @Inject
+    public AppsExecutor() {
+        this(Executors.newSingleThreadExecutor(), Executors.newFixedThreadPool(Constants.EXECUTOR_THREAD_POOL_OFFSET));
     }
 
-    public static Executor networkIO() {
+    public AppsExecutor(Executor diskIO, Executor networkIO) {
+        this.diskIO = diskIO;
+        this.networkIO = networkIO;
+    }
+
+    public Executor networkIO() {
         return networkIO;
     }
 
-    public static Executor mainThread() {
-        return mainThread;
-    }
-
-    public static Executor backgroundThread() {
-        return backgroundThread;
-    }
-
-    private static class MainThreadExecutor implements Executor {
-        private Handler mainThreadHandler = new Handler(Looper.getMainLooper());
-
-        @Override
-        public void execute(@NonNull Runnable command) {
-            mainThreadHandler.post(command);
-        }
+    public Executor diskIO() {
+        return diskIO;
     }
 }

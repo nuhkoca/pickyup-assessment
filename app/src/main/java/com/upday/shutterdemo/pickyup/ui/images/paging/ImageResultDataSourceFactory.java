@@ -2,7 +2,6 @@ package com.upday.shutterdemo.pickyup.ui.images.paging;
 
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
-import android.support.annotation.VisibleForTesting;
 
 import com.upday.shutterdemo.pickyup.model.remote.Images;
 
@@ -20,11 +19,6 @@ public class ImageResultDataSourceFactory extends DataSource.Factory<Long, Image
     public ImageResultDataSourceFactory(PageKeyedImagesDataSource pageKeyedImagesDataSource) {
         this.pageKeyedImagesDataSource = pageKeyedImagesDataSource;
         this.mPageKeyedImagesDataSourceMutableLiveData = new MutableLiveData<>();
-    }
-
-    @VisibleForTesting
-    public ImageResultDataSourceFactory(String query, String language, boolean safeSearch, String sort) {
-
     }
 
     @Override

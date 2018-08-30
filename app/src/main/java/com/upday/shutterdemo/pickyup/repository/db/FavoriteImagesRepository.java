@@ -9,14 +9,18 @@ import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
+@Singleton
 public class FavoriteImagesRepository {
 
     private FavoriteImagesDao favoriteImagesDao;
+    private AppsExecutor appsExecutor;
 
     @Inject
-    public FavoriteImagesRepository(FavoriteImagesDao favoriteImagesDao) {
+    public FavoriteImagesRepository(FavoriteImagesDao favoriteImagesDao, AppsExecutor appsExecutor) {
         this.favoriteImagesDao = favoriteImagesDao;
+        this.appsExecutor = appsExecutor;
 
     }
 
@@ -29,11 +33,11 @@ public class FavoriteImagesRepository {
     }
 
     public void deleteItem(final String iid) {
-        AppsExecutor.backgroundThread().execute(() -> favoriteImagesDao.deleteItem(iid));
+        appsExecutor.diskIO().execute(() -> favoriteImagesDao.deleteItem(iid));
     }
 
     public void deleteAll() {
-        AppsExecutor.backgroundThread().execute(() -> favoriteImagesDao.deleteAll());
+        appsExecutor.diskIO().execute(() -> favoriteImagesDao.deleteAll());
     }
 
     private static class insertOrThrowAsync extends AsyncTask<FavoriteImages, Void, Boolean> {

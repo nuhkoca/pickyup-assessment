@@ -59,12 +59,7 @@ public class SnackbarUtils {
                     getMessage(),
                     getLength() == Length.SHORT ? Snackbar.LENGTH_SHORT : Snackbar.LENGTH_LONG);
 
-            snackbar.setAction(resId, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    snackbar.dismiss();
-                }
-            });
+            snackbar.setAction(resId, v -> snackbar.dismiss());
 
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) snackbar.getView().getLayoutParams();
 

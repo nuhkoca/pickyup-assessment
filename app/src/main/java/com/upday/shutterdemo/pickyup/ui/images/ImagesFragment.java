@@ -27,7 +27,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.R;
-import com.upday.shutterdemo.pickyup.api.NetworkState;
+import com.upday.shutterdemo.pickyup.api.Status;
 import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.callback.IRetryListener;
 import com.upday.shutterdemo.pickyup.databinding.CustomImagesLayoutBinding;
@@ -79,6 +79,9 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     @Inject
     ConnectionUtils connectionUtils;
 
+    @Inject
+    ColumnUtils columnUtils;
+
     @Nullable
     private SimpleIdlingResource mIdlingResource;
 
@@ -129,7 +132,7 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     }
 
     private void setupRV() {
-        int columnCount = ColumnUtils.getOptimalNumberOfColumn(getContext());
+        int columnCount = columnUtils.getOptimalNumberOfColumn(getActivity());
         final StaggeredGridLayoutManager staggeredGridLayoutManager =
                 new StaggeredGridLayoutManager(columnCount, StaggeredGridLayoutManager.VERTICAL);
 
@@ -174,7 +177,7 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
 
         mImagesFragmentViewModel.getInitialLoading().observe(this, networkState -> {
             if (networkState != null) {
-                if (networkState.getStatus() == NetworkState.Status.SUCCESS) {
+                if (networkState.getStatus() == Status.SUCCESS) {
                     mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
                     mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
                     mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
@@ -185,7 +188,8 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
                         mIdlingResource.setIdleState(true);
                     }
 
-                } else if (networkState.getStatus() == NetworkState.Status.FAILED) {
+                }
+                if (networkState.getStatus() == Status.FAILED) {
                     mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
                     mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
                     mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.VISIBLE);
@@ -197,7 +201,8 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
                         mIdlingResource.setIdleState(false);
                     }
 
-                } else if (networkState.getStatus() == NetworkState.Status.NO_ITEM) {
+                }
+                if (networkState.getStatus() == Status.NO_ITEM) {
                     mCustomImagesLayoutBinding.pbImages.setVisibility(View.GONE);
                     mCustomImagesLayoutBinding.tvErrText.setVisibility(View.VISIBLE);
                     mCustomImagesLayoutBinding.tvErrText.setText(getString(R.string.no_result_error_text));
@@ -208,8 +213,9 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
                     if (mIdlingResource != null) {
                         mIdlingResource.setIdleState(false);
                     }
+                }
 
-                } else {
+                if (networkState.getStatus() == Status.RUNNING) {
                     mCustomImagesLayoutBinding.pbImages.setVisibility(View.VISIBLE);
                     mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
                     mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
@@ -270,9 +276,6 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
                 query = query.toLowerCase();
 
                 sharedPreferencesUtils.putStringData(Constants.QUERY_PREF_KEY, query);
-                query = sharedPreferencesUtils.getStringData(Constants.QUERY_PREF_KEY, Constants.DEFAULT_QUERY_VALUE);
-
-                //ImageResultDataSourceFactory.getInstance(query, mLanguage, mSafeSearch, mSorting);
 
                 refreshImagesResult();
 
@@ -300,18 +303,22 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.image_language_pref_key))) {
-            sharedPreferencesUtils.putStringData(getString(R.string.image_language_pref_key), getString(R.string.en_lang_value));
+            sharedPreferencesUtils.putStringData(key, sharedPreferences.getString(key, getString(R.string.en_lang_value)));
         }
+
         if (key.equals(getString(R.string.image_sorting_pref_key))) {
-            sharedPreferencesUtils.putStringData(getString(R.string.image_sorting_pref_key), getString(R.string.popular_value));
+            sharedPreferencesUtils.putStringData(key, sharedPreferences.getString(key, getString(R.string.popular_value)));
         }
+
         if (key.equals(getString(R.string.image_safe_search_pref_key))) {
-            sharedPreferencesUtils.putBooleanData(getString(R.string.image_language_pref_key), true);
+            sharedPreferencesUtils.putBooleanData(key, sharedPreferences.getBoolean(key, true));
+        }
+
+        if (key.equals(getString(R.string.confidence_key))) {
+            sharedPreferencesUtils.putStringData(key, sharedPreferences.getString(key, getString(R.string.confidence_0_7_value)));
         }
 
         if (!key.equals(getString(R.string.confidence_key))) {
-            sharedPreferencesUtils.putStringData(getString(R.string.confidence_key), getString(R.string.confidence_0_7_value));
-
             behaveAccordingToFirstRun();
         }
     }

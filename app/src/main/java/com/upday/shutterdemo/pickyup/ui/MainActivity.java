@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.databinding.ActivityMainBinding;
@@ -26,6 +25,8 @@ import com.upday.shutterdemo.pickyup.helper.SearchView;
 import com.upday.shutterdemo.pickyup.ui.favorites.FavoritesFragment;
 import com.upday.shutterdemo.pickyup.ui.images.ImagesFragment;
 import com.upday.shutterdemo.pickyup.ui.settings.SettingsFragment;
+
+import javax.inject.Inject;
 
 import dagger.android.support.DaggerAppCompatActivity;
 
@@ -40,7 +41,8 @@ public class MainActivity extends DaggerAppCompatActivity implements BottomNavig
 
     private SearchView mSearchView;
 
-    private InterstitialAd mInterstitialAd;
+    @Inject
+    InterstitialAd interstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +54,11 @@ public class MainActivity extends DaggerAppCompatActivity implements BottomNavig
     }
 
     private void setupInterstitialAd() {
-        mInterstitialAd = new InterstitialAd(getApplicationContext());
-        mInterstitialAd.setAdUnitId(getString(R.string.interstitial_id));
-        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-
-        mInterstitialAd.setAdListener(new AdListener() {
+        interstitialAd.setAdListener(new AdListener() {
             @Override
             public void onAdClosed() {
-                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-                    mInterstitialAd = null;
+                if (interstitialAd != null && interstitialAd.isLoaded()) {
+                    interstitialAd = null;
                     MainActivity.super.onBackPressed();
                 } else {
                     MainActivity.super.onBackPressed();
@@ -72,8 +70,8 @@ public class MainActivity extends DaggerAppCompatActivity implements BottomNavig
     }
 
     private void disposeInterstitialAd() {
-        if (mInterstitialAd != null) {
-            mInterstitialAd = null;
+        if (interstitialAd != null) {
+            interstitialAd = null;
         }
     }
 
@@ -192,8 +190,8 @@ public class MainActivity extends DaggerAppCompatActivity implements BottomNavig
         } else {
             if (mBackPressed + timeDelay > System.currentTimeMillis()) {
 
-                if (mInterstitialAd != null && mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
+                if (interstitialAd != null && interstitialAd.isLoaded()) {
+                    interstitialAd.show();
                 } else {
                     super.onBackPressed();
                 }
