@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.test;
+package com.upday.shutterdemo.pickyup.util.test;
 
 import android.text.TextUtils;
 

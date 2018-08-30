@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.test;
+package com.upday.shutterdemo.pickyup.util.test;
 
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;

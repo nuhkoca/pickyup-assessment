@@ -2,7 +2,7 @@ package com.upday.shutterdemo.pickyup;
 
 import com.upday.shutterdemo.pickyup.di.component.AppComponent;
 import com.upday.shutterdemo.pickyup.di.component.DaggerAppComponent;
-import com.upday.shutterdemo.pickyup.utils.AppUtils;
+import com.upday.shutterdemo.pickyup.util.AppUtils;
 
 import javax.inject.Inject;
 

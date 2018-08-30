@@ -3,7 +3,7 @@ package com.upday.shutterdemo.pickyup.api;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
+import com.upday.shutterdemo.pickyup.model.remote.data.ImagesWrapper;
 
 import io.reactivex.Single;
 import retrofit2.http.GET;

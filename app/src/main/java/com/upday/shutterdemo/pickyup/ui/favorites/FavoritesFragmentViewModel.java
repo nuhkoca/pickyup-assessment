@@ -8,8 +8,8 @@ import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
-import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
-import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
+import com.upday.shutterdemo.pickyup.model.local.FavoriteImagesRepository;
+import com.upday.shutterdemo.pickyup.util.FirebaseMLKitUtils;
 
 import javax.inject.Inject;
 
@@ -51,6 +51,14 @@ public class FavoritesFragmentViewModel extends ViewModel {
 
     public void generateLabelsFromBitmap(final ImageView imageView) {
         firebaseMLKitUtils.generateLabelsFromBitmap(imageView);
+    }
+
+    public void deleteItem(FavoriteImages favoriteImages){
+        favoriteImagesRepository.deleteItem(favoriteImages.getIid());
+    }
+
+    public void deleteAll(){
+        favoriteImagesRepository.deleteAll();
     }
 
     @Override

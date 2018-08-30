@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.utils;
+package com.upday.shutterdemo.pickyup.util;
 
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;

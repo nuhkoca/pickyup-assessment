@@ -1,9 +1,9 @@
-package com.upday.shutterdemo.pickyup.repository.db;
+package com.upday.shutterdemo.pickyup.model.local;
 
 import android.arch.paging.DataSource;
 import android.os.AsyncTask;
 
-import com.upday.shutterdemo.pickyup.callback.IDatabaseProgressListener;
+import com.upday.shutterdemo.pickyup.db.IDatabaseProgressListener;
 import com.upday.shutterdemo.pickyup.helper.AppsExecutor;
 import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;

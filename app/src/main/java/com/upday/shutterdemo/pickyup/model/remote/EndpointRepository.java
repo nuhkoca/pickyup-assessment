@@ -1,7 +1,7 @@
-package com.upday.shutterdemo.pickyup.repository.api;
+package com.upday.shutterdemo.pickyup.model.remote;
 
 import com.upday.shutterdemo.pickyup.api.IShutterstockAPI;
-import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
+import com.upday.shutterdemo.pickyup.model.remote.data.ImagesWrapper;
 
 import javax.inject.Inject;
 

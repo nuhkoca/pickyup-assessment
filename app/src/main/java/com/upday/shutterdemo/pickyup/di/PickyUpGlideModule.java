@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.module;
+package com.upday.shutterdemo.pickyup.di;
 
 import android.content.Context;
 import android.graphics.Bitmap;

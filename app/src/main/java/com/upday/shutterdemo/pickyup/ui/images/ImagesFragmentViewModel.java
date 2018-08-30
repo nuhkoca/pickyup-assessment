@@ -1,6 +1,7 @@
 package com.upday.shutterdemo.pickyup.ui.images;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.Transformations;
 import android.arch.lifecycle.ViewModel;
 import android.arch.paging.LivePagedListBuilder;
@@ -10,10 +11,12 @@ import android.widget.ImageView;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
 import com.upday.shutterdemo.pickyup.helper.AppsExecutor;
 import com.upday.shutterdemo.pickyup.helper.Constants;
-import com.upday.shutterdemo.pickyup.model.remote.Images;
+import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
+import com.upday.shutterdemo.pickyup.model.remote.data.Images;
+import com.upday.shutterdemo.pickyup.model.local.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFactory;
 import com.upday.shutterdemo.pickyup.ui.images.paging.PageKeyedImagesDataSource;
-import com.upday.shutterdemo.pickyup.utils.FirebaseMLKitUtils;
+import com.upday.shutterdemo.pickyup.util.FirebaseMLKitUtils;
 
 import javax.inject.Inject;
 
@@ -22,19 +25,23 @@ public class ImagesFragmentViewModel extends ViewModel {
     private LiveData<NetworkState> mNetworkState;
     private LiveData<NetworkState> mInitialLoading;
     private LiveData<PagedList<Images>> mImagesResult;
+    private MutableLiveData<Boolean> mIsAdded;
 
     private ImageResultDataSourceFactory imageResultDataSourceFactory;
 
-    @Inject
-    FirebaseMLKitUtils firebaseMLKitUtils;
+    private FirebaseMLKitUtils firebaseMLKitUtils;
+    private AppsExecutor appsExecutor;
+    private FavoriteImagesRepository favoriteImagesRepository;
 
     @Inject
-    AppsExecutor appsExecutor;
-
-    @Inject
-    public ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory, AppsExecutor appsExecutor) {
+    public ImagesFragmentViewModel(ImageResultDataSourceFactory imageResultDataSourceFactory, AppsExecutor appsExecutor, FirebaseMLKitUtils firebaseMLKitUtils, FavoriteImagesRepository favoriteImagesRepository) {
         this.imageResultDataSourceFactory = imageResultDataSourceFactory;
         this.appsExecutor = appsExecutor;
+        this.firebaseMLKitUtils = firebaseMLKitUtils;
+        this.favoriteImagesRepository = favoriteImagesRepository;
+
+        mIsAdded = new MutableLiveData<>();
+        mIsAdded.postValue(false);
 
         mNetworkState = Transformations.switchMap(this.imageResultDataSourceFactory.getPageKeyedImagesDataSourceMutableLiveData(), PageKeyedImagesDataSource::getNetworkState);
 
@@ -82,6 +89,32 @@ public class ImagesFragmentViewModel extends ViewModel {
 
     public void generateLabelsFromBitmap(final ImageView imageView) {
         firebaseMLKitUtils.generateLabelsFromBitmap(imageView);
+    }
+
+    public MutableLiveData<Boolean> addToDb(Images images) {
+        String iid = images.getId();
+        final String description = images.getDescription();
+        String url = images.getAssets().getHugeThumb().getUrl();
+        double height = images.getAssets().getHugeThumb().getHeight();
+        double width = images.getAssets().getHugeThumb().getWidth();
+
+        FavoriteImages favoriteImages = new FavoriteImages(
+                iid,
+                url,
+                description,
+                height,
+                width
+        );
+
+        favoriteImagesRepository.insertOrThrow(favoriteImages, iid, result -> {
+            if (result){
+                mIsAdded.postValue(false);
+            }else {
+                mIsAdded.postValue(true);
+            }
+        });
+
+        return mIsAdded;
     }
 
     @Override

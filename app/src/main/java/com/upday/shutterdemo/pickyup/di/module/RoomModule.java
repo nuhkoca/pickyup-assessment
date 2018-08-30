@@ -9,7 +9,6 @@ import android.support.annotation.NonNull;
 import com.upday.shutterdemo.pickyup.db.PickyUpDatabase;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.local.dao.FavoriteImagesDao;
-import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 
 import javax.inject.Singleton;
 

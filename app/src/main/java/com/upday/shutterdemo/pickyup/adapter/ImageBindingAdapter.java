@@ -4,7 +4,7 @@ import android.databinding.BindingAdapter;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
-import com.upday.shutterdemo.pickyup.module.GlideApp;
+import com.upday.shutterdemo.pickyup.di.GlideApp;
 
 public class ImageBindingAdapter {
 

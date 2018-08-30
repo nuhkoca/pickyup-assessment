@@ -11,10 +11,10 @@ import android.view.ViewGroup;
 
 import com.android.databinding.library.baseAdapters.BR;
 import com.upday.shutterdemo.pickyup.R;
-import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
+import com.upday.shutterdemo.pickyup.ui.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.databinding.FavoriteImagesItemLayoutBinding;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
-import com.upday.shutterdemo.pickyup.utils.AspectUtils;
+import com.upday.shutterdemo.pickyup.util.AspectUtils;
 
 public class FavoritesAdapter extends PagedListAdapter<FavoriteImages, RecyclerView.ViewHolder> {
 

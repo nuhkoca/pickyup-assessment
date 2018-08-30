@@ -3,7 +3,7 @@ package com.upday.shutterdemo.pickyup.ui.images.paging;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.DataSource;
 
-import com.upday.shutterdemo.pickyup.model.remote.Images;
+import com.upday.shutterdemo.pickyup.model.remote.data.Images;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;

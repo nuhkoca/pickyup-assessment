@@ -3,12 +3,7 @@ package com.upday.shutterdemo.pickyup.di.component;
 import android.app.Application;
 
 import com.upday.shutterdemo.pickyup.PickyUpApp;
-import com.upday.shutterdemo.pickyup.di.module.ActivityBuilder;
 import com.upday.shutterdemo.pickyup.di.module.AppModule;
-import com.upday.shutterdemo.pickyup.di.module.ContextModule;
-import com.upday.shutterdemo.pickyup.di.module.FragmentBuilder;
-import com.upday.shutterdemo.pickyup.di.module.RoomModule;
-import com.upday.shutterdemo.pickyup.di.module.ViewModelModule;
 
 import javax.inject.Singleton;
 

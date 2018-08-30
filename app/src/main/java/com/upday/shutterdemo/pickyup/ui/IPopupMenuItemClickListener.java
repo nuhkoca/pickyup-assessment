@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.callback;
+package com.upday.shutterdemo.pickyup.ui;
 
 import android.view.View;
 import android.widget.ImageView;

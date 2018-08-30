@@ -1,11 +1,13 @@
-package com.upday.shutterdemo.pickyup.utils;
+package com.upday.shutterdemo.pickyup.util;
 
 import android.support.v7.widget.PopupMenu;
 import android.view.MenuItem;
 
-import com.upday.shutterdemo.pickyup.callback.IMenuItemIdListener;
-
 public class PopupMenuUtils {
+
+    public interface IMenuItemIdListener {
+        void onItemIdReceived(int id);
+    }
 
     private static PopupMenuUtils INSTANCE;
 

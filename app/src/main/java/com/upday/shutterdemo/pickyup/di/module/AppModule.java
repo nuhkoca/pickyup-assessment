@@ -14,7 +14,7 @@ import com.upday.shutterdemo.pickyup.BuildConfig;
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.IShutterstockAPI;
 import com.upday.shutterdemo.pickyup.helper.Constants;
-import com.upday.shutterdemo.pickyup.repository.api.EndpointRepository;
+import com.upday.shutterdemo.pickyup.model.remote.EndpointRepository;
 
 import java.util.concurrent.TimeUnit;
 
@@ -39,6 +39,7 @@ public class AppModule {
     }
 
     @Provides
+    @Singleton
     InterstitialAd provideInterstitialAd(Context context, AdRequest adRequest){
         InterstitialAd interstitialAd = new InterstitialAd(context);
         interstitialAd.setAdUnitId(context.getString(R.string.interstitial_id));

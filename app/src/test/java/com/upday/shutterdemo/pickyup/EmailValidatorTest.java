@@ -3,7 +3,7 @@ package com.upday.shutterdemo.pickyup;
 import android.content.Context;
 import android.content.res.Resources;
 
-import com.upday.shutterdemo.pickyup.test.EmailValidator;
+import com.upday.shutterdemo.pickyup.util.test.EmailValidator;
 
 import org.junit.Before;
 import org.junit.Test;

@@ -28,21 +28,19 @@ import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.Status;
-import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
-import com.upday.shutterdemo.pickyup.callback.IRetryListener;
+import com.upday.shutterdemo.pickyup.ui.IPopupMenuItemClickListener;
+import com.upday.shutterdemo.pickyup.api.IRetryListener;
 import com.upday.shutterdemo.pickyup.databinding.CustomImagesLayoutBinding;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.helper.SearchView;
-import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
-import com.upday.shutterdemo.pickyup.model.remote.Images;
-import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
-import com.upday.shutterdemo.pickyup.test.SimpleIdlingResource;
+import com.upday.shutterdemo.pickyup.model.remote.data.Images;
+import com.upday.shutterdemo.pickyup.util.test.SimpleIdlingResource;
 import com.upday.shutterdemo.pickyup.ui.WebViewActivity;
-import com.upday.shutterdemo.pickyup.utils.ColumnUtils;
-import com.upday.shutterdemo.pickyup.utils.ConnectionUtils;
-import com.upday.shutterdemo.pickyup.utils.PopupMenuUtils;
-import com.upday.shutterdemo.pickyup.utils.SharedPreferencesUtils;
-import com.upday.shutterdemo.pickyup.utils.SnackbarUtils;
+import com.upday.shutterdemo.pickyup.util.ColumnUtils;
+import com.upday.shutterdemo.pickyup.util.ConnectionUtils;
+import com.upday.shutterdemo.pickyup.util.PopupMenuUtils;
+import com.upday.shutterdemo.pickyup.util.SharedPreferencesUtils;
+import com.upday.shutterdemo.pickyup.util.SnackbarUtils;
 
 import java.util.Objects;
 
@@ -66,9 +64,6 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
 
     private boolean sIsRotatedAndSearchViewStated = false;
     private String sSearchString;
-
-    @Inject
-    FavoriteImagesRepository favoriteImagesRepository;
 
     @Inject
     ViewModelProvider.Factory viewModelFactory;
@@ -415,35 +410,23 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
     }
 
     private void addToDb(final Images images) {
-        String iid = images.getId();
-        final String description = images.getDescription();
-        String url = images.getAssets().getHugeThumb().getUrl();
-        double height = images.getAssets().getHugeThumb().getHeight();
-        double width = images.getAssets().getHugeThumb().getWidth();
-
-        FavoriteImages favoriteImages = new FavoriteImages(
-                iid,
-                url,
-                description,
-                height,
-                width
-        );
-
-        favoriteImagesRepository.insertOrThrow(favoriteImages, iid, result -> {
-            if (result) {
-                new SnackbarUtils.Builder()
-                        .setView(mCustomImagesLayoutBinding.clImages)
-                        .setMessage(String.format(getString(R.string.constraint_exception_text), description))
-                        .setLength(SnackbarUtils.Length.LONG)
-                        .show(getString(R.string.dismiss_action_text))
-                        .build();
-            } else {
-                new SnackbarUtils.Builder()
-                        .setView(mCustomImagesLayoutBinding.clImages)
-                        .setMessage(String.format(getString(R.string.database_adding_info_text), description))
-                        .setLength(SnackbarUtils.Length.LONG)
-                        .show(getString(R.string.dismiss_action_text))
-                        .build();
+        mImagesFragmentViewModel.addToDb(images).observe(this, isAdded -> {
+            if (isAdded != null) {
+                if (isAdded) {
+                    new SnackbarUtils.Builder()
+                            .setView(mCustomImagesLayoutBinding.clImages)
+                            .setMessage(String.format(getString(R.string.database_adding_info_text), images.getDescription()))
+                            .setLength(SnackbarUtils.Length.LONG)
+                            .show(getString(R.string.dismiss_action_text))
+                            .build();
+                } else {
+                    new SnackbarUtils.Builder()
+                            .setView(mCustomImagesLayoutBinding.clImages)
+                            .setMessage(String.format(getString(R.string.constraint_exception_text), images.getDescription()))
+                            .setLength(SnackbarUtils.Length.LONG)
+                            .show(getString(R.string.dismiss_action_text))
+                            .build();
+                }
             }
         });
     }

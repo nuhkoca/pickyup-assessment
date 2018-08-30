@@ -3,9 +3,9 @@ package com.upday.shutterdemo.pickyup;
 import android.arch.lifecycle.Observer;
 import android.arch.paging.PagedList;
 
-import com.upday.shutterdemo.pickyup.model.remote.Images;
-import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
-import com.upday.shutterdemo.pickyup.repository.api.EndpointRepository;
+import com.upday.shutterdemo.pickyup.model.remote.data.Images;
+import com.upday.shutterdemo.pickyup.model.remote.data.ImagesWrapper;
+import com.upday.shutterdemo.pickyup.model.remote.EndpointRepository;
 import com.upday.shutterdemo.pickyup.ui.images.ImagesFragmentViewModel;
 import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFactory;
 

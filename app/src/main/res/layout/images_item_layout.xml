@@ -5,15 +5,15 @@
     <data>
         <variable
             name="images"
-            type="com.upday.shutterdemo.pickyup.model.remote.Images" />
+            type="com.upday.shutterdemo.pickyup.model.remote.data.Images" />
 
         <variable
             name="image"
-            type="com.upday.shutterdemo.pickyup.model.remote.HugeThumb" />
+            type="com.upday.shutterdemo.pickyup.model.remote.data.HugeThumb" />
 
         <variable
             name="popupItemClickListener"
-            type="com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener" />
+            type="com.upday.shutterdemo.pickyup.ui.IPopupMenuItemClickListener" />
 
     </data>
 

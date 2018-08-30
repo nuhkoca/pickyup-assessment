@@ -24,16 +24,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.upday.shutterdemo.pickyup.R;
-import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
+import com.upday.shutterdemo.pickyup.ui.IPopupMenuItemClickListener;
 import com.upday.shutterdemo.pickyup.databinding.CustomImagesLayoutBinding;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.local.entity.FavoriteImages;
-import com.upday.shutterdemo.pickyup.repository.db.FavoriteImagesRepository;
 import com.upday.shutterdemo.pickyup.ui.WebViewActivity;
-import com.upday.shutterdemo.pickyup.utils.ColumnUtils;
-import com.upday.shutterdemo.pickyup.utils.PopupMenuUtils;
-import com.upday.shutterdemo.pickyup.utils.SharedPreferencesUtils;
-import com.upday.shutterdemo.pickyup.utils.SnackbarUtils;
+import com.upday.shutterdemo.pickyup.util.ColumnUtils;
+import com.upday.shutterdemo.pickyup.util.PopupMenuUtils;
+import com.upday.shutterdemo.pickyup.util.SharedPreferencesUtils;
+import com.upday.shutterdemo.pickyup.util.SnackbarUtils;
 
 import java.util.Objects;
 
@@ -48,9 +47,6 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
 
     private CustomImagesLayoutBinding mCustomImagesLayoutBinding;
     private FavoritesFragmentViewModel mFavoritesFragmentViewModel;
-
-    @Inject
-    FavoriteImagesRepository favoriteImagesRepository;
 
     @Inject
     SharedPreferencesUtils sharedPreferencesUtils;
@@ -208,7 +204,7 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
                 .setPositiveButton(getString(R.string.ok_action_text), (dialog, which) -> {
                     dialog.dismiss();
 
-                    favoriteImagesRepository.deleteItem(favoriteImages.getIid());
+                    mFavoritesFragmentViewModel.deleteItem(favoriteImages);
                     getAll();
 
                     new SnackbarUtils.Builder()
@@ -233,7 +229,7 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
                     .setPositiveButton(getString(R.string.ok_action_text), (dialog, which) -> {
                         dialog.dismiss();
 
-                        favoriteImagesRepository.deleteAll();
+                        mFavoritesFragmentViewModel.deleteAll();
                         getAll();
 
                         new SnackbarUtils.Builder()
@@ -260,7 +256,7 @@ public class FavoritesFragment extends DaggerFragment implements SharedPreferenc
     @Override
     public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
         if (key.equals(getString(R.string.confidence_key))) {
-            sharedPreferencesUtils.putStringData(getString(R.string.confidence_key), getString(R.string.confidence_0_7_value));
+            sharedPreferencesUtils.putStringData(key, sharedPreferences.getString(key, getString(R.string.confidence_0_7_value)));
         }
     }
 

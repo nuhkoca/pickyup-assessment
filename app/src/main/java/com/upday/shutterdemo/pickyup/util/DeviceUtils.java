@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.utils;
+package com.upday.shutterdemo.pickyup.util;
 
 import android.os.Build;
 

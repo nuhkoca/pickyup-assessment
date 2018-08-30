@@ -1,4 +1,4 @@
-package com.upday.shutterdemo.pickyup.model.remote;
+package com.upday.shutterdemo.pickyup.model.remote.data;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;

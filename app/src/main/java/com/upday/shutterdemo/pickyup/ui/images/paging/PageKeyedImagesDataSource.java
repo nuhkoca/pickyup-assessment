@@ -9,10 +9,10 @@ import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
 import com.upday.shutterdemo.pickyup.api.Status;
 import com.upday.shutterdemo.pickyup.helper.Constants;
-import com.upday.shutterdemo.pickyup.model.remote.Images;
-import com.upday.shutterdemo.pickyup.model.remote.ImagesWrapper;
-import com.upday.shutterdemo.pickyup.repository.api.EndpointRepository;
-import com.upday.shutterdemo.pickyup.utils.SharedPreferencesUtils;
+import com.upday.shutterdemo.pickyup.model.remote.data.Images;
+import com.upday.shutterdemo.pickyup.model.remote.data.ImagesWrapper;
+import com.upday.shutterdemo.pickyup.model.remote.EndpointRepository;
+import com.upday.shutterdemo.pickyup.util.SharedPreferencesUtils;
 
 import java.util.ArrayList;
 import java.util.List;

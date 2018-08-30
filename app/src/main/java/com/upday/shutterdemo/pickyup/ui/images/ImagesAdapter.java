@@ -13,12 +13,12 @@ import com.android.databinding.library.baseAdapters.BR;
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.NetworkState;
 import com.upday.shutterdemo.pickyup.api.Status;
-import com.upday.shutterdemo.pickyup.callback.IPopupMenuItemClickListener;
-import com.upday.shutterdemo.pickyup.callback.IRetryListener;
+import com.upday.shutterdemo.pickyup.ui.IPopupMenuItemClickListener;
+import com.upday.shutterdemo.pickyup.api.IRetryListener;
 import com.upday.shutterdemo.pickyup.databinding.ImagesItemLayoutBinding;
 import com.upday.shutterdemo.pickyup.databinding.NetworkStateItemBinding;
-import com.upday.shutterdemo.pickyup.model.remote.Images;
-import com.upday.shutterdemo.pickyup.utils.AspectUtils;
+import com.upday.shutterdemo.pickyup.model.remote.data.Images;
+import com.upday.shutterdemo.pickyup.util.AspectUtils;
 
 public class ImagesAdapter extends PagedListAdapter<Images, RecyclerView.ViewHolder> {
 
