@@ -23,7 +23,6 @@ import javax.inject.Singleton;
 public class FirebaseMLKitUtils {
 
     private SharedPreferences sharedPreferences;
-
     private Context context;
 
     @Inject

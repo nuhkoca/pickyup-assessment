@@ -35,17 +35,15 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
     private MutableLiveData<NetworkState> mNetworkState;
     private MutableLiveData<NetworkState> mInitialLoading;
 
-    @Inject
-    SharedPreferencesUtils sharedPreferencesUtils;
+    private SharedPreferencesUtils sharedPreferencesUtils;
+
+    private Context context;
 
     @Inject
-    Context context;
-
-    @Inject
-    PageKeyedImagesDataSource(EndpointRepository endpointRepository, Context context) {
+    PageKeyedImagesDataSource(EndpointRepository endpointRepository, Context context, SharedPreferencesUtils sharedPreferencesUtils) {
         this.endpointRepository = endpointRepository;
-
         this.context = context;
+        this.sharedPreferencesUtils = sharedPreferencesUtils;
 
         mNetworkState = new MutableLiveData<>();
         mInitialLoading = new MutableLiveData<>();

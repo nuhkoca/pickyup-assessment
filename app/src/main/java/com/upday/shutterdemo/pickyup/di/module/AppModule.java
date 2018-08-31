@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
@@ -104,5 +105,21 @@ public class AppModule {
     @Singleton
     EndpointRepository provideEndpointRepository(IShutterstockAPI iShutterstockAPI){
         return new EndpointRepository(iShutterstockAPI);
+    }
+
+    @Provides
+    @Singleton
+    Stetho.InitializerBuilder provideStethoInitializerBuilder(Context context){
+        Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(context);
+        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context));
+        initializerBuilder.enableDumpapp(Stetho.defaultDumperPluginsProvider(context));
+
+        return initializerBuilder;
+    }
+
+    @Provides
+    @Singleton
+    Stetho.Initializer provideStethoInitializer(Stetho.InitializerBuilder initializerBuilder){
+        return initializerBuilder.build();
     }
 }

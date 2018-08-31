@@ -16,34 +16,20 @@ import timber.log.Timber;
 public class AppUtils {
 
     private Context context;
+    private Stetho.Initializer initializer;
 
     @Inject
-    public AppUtils(Context context) {
+    public AppUtils(Context context, Stetho.Initializer initializer) {
         this.context = context;
+        this.initializer = initializer;
     }
 
     public void initializeNecessaryPlugins() {
-        provideTimber();
-        provideStetho();
-        provideMobileAds();
-    }
-
-    private void provideTimber() {
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         }
-    }
 
-    private void provideStetho() {
-        Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(context);
-        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(context));
-        initializerBuilder.enableDumpapp(Stetho.defaultDumperPluginsProvider(context));
-
-        Stetho.Initializer initializer = initializerBuilder.build();
         Stetho.initialize(initializer);
-    }
-
-    private void provideMobileAds() {
         MobileAds.initialize(context, context.getString(R.string.app_id));
     }
 }
