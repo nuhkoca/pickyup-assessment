@@ -110,8 +110,10 @@ public class PageKeyedImagesDataSource extends PageKeyedDataSource<Long, Images>
             callback.onResult(imagesList, null, 2L);
 
             mNetworkState.postValue(NetworkState.LOADED);
+            mInitialLoading.postValue(NetworkState.LOADED);
         } else {
             mNetworkState.postValue(new NetworkState(Status.NO_ITEM));
+            mInitialLoading.postValue(new NetworkState(Status.NO_ITEM));
         }
     }
 

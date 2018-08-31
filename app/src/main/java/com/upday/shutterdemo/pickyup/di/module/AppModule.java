@@ -13,6 +13,7 @@ import com.google.gson.GsonBuilder;
 import com.upday.shutterdemo.pickyup.BuildConfig;
 import com.upday.shutterdemo.pickyup.R;
 import com.upday.shutterdemo.pickyup.api.IShutterstockAPI;
+import com.upday.shutterdemo.pickyup.api.RequestInterceptor;
 import com.upday.shutterdemo.pickyup.helper.Constants;
 import com.upday.shutterdemo.pickyup.model.remote.EndpointRepository;
 
@@ -23,7 +24,6 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -76,13 +76,7 @@ public class AppModule {
         httpClient.connectTimeout(10, TimeUnit.SECONDS);
         httpClient.readTimeout(10, TimeUnit.SECONDS);
 
-        httpClient.addInterceptor(chain -> {
-            Request newRequest = chain.request().newBuilder()
-                    .addHeader("Authorization", "Bearer " + BuildConfig.BEARER_TOKEN)
-                    .build();
-            return chain.proceed(newRequest);
-        }).build();
-
+        httpClient.addInterceptor(new RequestInterceptor());
         httpClient.addInterceptor(new StethoInterceptor());
         httpClient.interceptors().add(httpLoggingInterceptor);
 

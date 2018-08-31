@@ -29,7 +29,7 @@ public class EmailValidatorTest {
     private Resources fakeRes;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
 
         when(fakeContext.getResources()).thenReturn(fakeRes);
@@ -37,7 +37,7 @@ public class EmailValidatorTest {
     }
 
     @Test
-    public void emailValidator_CorrectEmail_ReturnsTrue() throws Exception {
+    public void emailValidator_CorrectEmail_ReturnsTrue() {
         assertThat(EmailValidator.isValidEmail(fakeRes.getString(R.string.mail_address)), is(true));
     }
 }

@@ -3,11 +3,15 @@ package com.upday.shutterdemo.pickyup;
 import android.arch.lifecycle.Observer;
 import android.arch.paging.PagedList;
 
+import com.upday.shutterdemo.pickyup.helper.AppsExecutor;
+import com.upday.shutterdemo.pickyup.model.local.FavoriteImagesRepository;
+import com.upday.shutterdemo.pickyup.model.remote.EndpointRepository;
 import com.upday.shutterdemo.pickyup.model.remote.data.Images;
 import com.upday.shutterdemo.pickyup.model.remote.data.ImagesWrapper;
-import com.upday.shutterdemo.pickyup.model.remote.EndpointRepository;
 import com.upday.shutterdemo.pickyup.ui.images.ImagesFragmentViewModel;
 import com.upday.shutterdemo.pickyup.ui.images.paging.ImageResultDataSourceFactory;
+import com.upday.shutterdemo.pickyup.ui.images.paging.PageKeyedImagesDataSource;
+import com.upday.shutterdemo.pickyup.util.FirebaseMLKitUtils;
 
 import org.junit.After;
 import org.junit.Assert;
@@ -20,13 +24,12 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import rx.Observable;
-import rx.Scheduler;
-import rx.android.plugins.RxAndroidPlugins;
-import rx.android.plugins.RxAndroidSchedulersHook;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.plugins.RxJavaHooks;
-import rx.schedulers.Schedulers;
+import javax.inject.Inject;
+
+import io.reactivex.Single;
+import io.reactivex.android.plugins.RxAndroidPlugins;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 import static org.junit.Assert.assertTrue;
 import static org.powermock.api.mockito.PowerMockito.mock;
@@ -34,7 +37,7 @@ import static org.powermock.api.mockito.PowerMockito.spy;
 import static org.powermock.api.mockito.PowerMockito.when;
 
 @RunWith(PowerMockRunner.class)
-@PrepareForTest({Observable.class, AndroidSchedulers.class, Schedulers.class})
+@PrepareForTest({Single.class, AndroidSchedulers.class, Schedulers.class})
 @PowerMockIgnore("javax.net.ssl*")
 public class ShutterstockAPITest {
 
@@ -46,17 +49,30 @@ public class ShutterstockAPITest {
     private static final int PAGE_SIZE = 20;
 
     @Mock
-    private
+    @Inject
     EndpointRepository endpointRepository;
     @Mock
-    private
+    @Inject
     ImagesFragmentViewModel imagesFragmentViewModel;
     @Mock
-    private
+    @Inject
     ImageResultDataSourceFactory imageResultDataSourceFactory;
     @Mock
     private
     Observer<PagedList<Images>> observer;
+    @Mock
+    @Inject
+    PageKeyedImagesDataSource pageKeyedImagesDataSource;
+    @Mock
+    @Inject
+    AppsExecutor appsExecutor;
+    @Mock
+    @Inject
+    FirebaseMLKitUtils firebaseMLKitUtils;
+    @Mock
+    @Inject
+    FavoriteImagesRepository favoriteImagesRepository;
+
 
     @Before
     public void setUp() {
@@ -64,22 +80,15 @@ public class ShutterstockAPITest {
 
         endpointRepository = mock(EndpointRepository.class);
         imageResultDataSourceFactory = spy(
-                new ImageResultDataSourceFactory(QUERY, LANGUAGE, SAFE_SEARCH, SORT));
+                new ImageResultDataSourceFactory(pageKeyedImagesDataSource));
 
-        imagesFragmentViewModel = spy(new ImagesFragmentViewModel(imageResultDataSourceFactory));
-
-        RxAndroidPlugins.getInstance().registerSchedulersHook(new RxAndroidSchedulersHook() {
-            @Override
-            public Scheduler getMainThreadScheduler() {
-                return Schedulers.immediate();
-            }
-        });
+        imagesFragmentViewModel = spy(new ImagesFragmentViewModel(imageResultDataSourceFactory, appsExecutor, firebaseMLKitUtils, favoriteImagesRepository));
     }
 
     @SuppressWarnings({"unchecked", "ResultOfMethodCallIgnored"})
     @Test
-    public void request_ShouldHaveSomeData_ReturnsTrue() throws Exception {
-        Observable<ImagesWrapper> observable = (Observable<ImagesWrapper>) mock(Observable.class);
+    public void request_ShouldHaveSomeData_ReturnsTrue() {
+        Single<ImagesWrapper> observable = (Single<ImagesWrapper>) mock(Single.class);
 
         Assert.assertNotNull(observable);
 
@@ -97,9 +106,8 @@ public class ShutterstockAPITest {
 
     @After
     public void tearDown() {
-        RxJavaHooks.reset();
-        RxAndroidPlugins.getInstance().reset();
-        AndroidSchedulers.reset();
-        Schedulers.reset();
+        RxAndroidPlugins.reset();
+        AndroidSchedulers.mainThread().shutdown();
+        Schedulers.shutdown();
     }
 }

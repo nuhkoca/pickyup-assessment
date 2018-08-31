@@ -209,18 +209,6 @@ public class ImagesFragment extends DaggerFragment implements SharedPreferences.
                         mIdlingResource.setIdleState(false);
                     }
                 }
-
-                if (networkState.getStatus() == Status.RUNNING) {
-                    mCustomImagesLayoutBinding.pbImages.setVisibility(View.VISIBLE);
-                    mCustomImagesLayoutBinding.tvErrText.setVisibility(View.GONE);
-                    mCustomImagesLayoutBinding.tvErrButton.setVisibility(View.GONE);
-
-                    getIdlingResource();
-
-                    if (mIdlingResource != null) {
-                        mIdlingResource.setIdleState(false);
-                    }
-                }
             }
         });
 
